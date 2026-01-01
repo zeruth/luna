@@ -27,8 +27,12 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.ResourceLeakDetector;
+import me.filby.neptune.serverscript.compiler.ServerScriptCompiler;
+import me.filby.neptune.serverscript.compiler.ServerScriptCompilerApplicationKt;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import runescript.RuneScriptManager;
+import runescript.RuneScriptParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,8 +92,14 @@ public final class LunaServer {
             Stopwatch launchTimer = Stopwatch.createStarted();
 
             initCache();
+
+            RuneScriptManager rsManager = new RuneScriptManager();
+            rsManager.compile();
+            new RuneScriptParser().read();
             initLaunchTasks();
             initServices();
+
+
 
             // Wait for the above to finish before bringing the network online.
             GameService game = context.getGame();

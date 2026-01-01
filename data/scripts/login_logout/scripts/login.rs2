@@ -1,0 +1,62 @@
+[login,_]
+mes("Welcome to RuneScape.");
+
+/* %musicplay = 1; // set to auto on login
+
+~update_all(inv_getobj(worn, ^wearpos_rhand));
+cam_reset;
+
+set_player_op(null, 2, ^false);
+set_player_op("Follow", 3, ^false);
+set_player_op("Trade with", 4, ^false);
+set_player_op(null, 5, ^false);
+
+minimap_toggle(0); //reset minimap state on login
+
+// random event timer
+settimer(general_macro_events, 500);
+
+// for logout out during a general macro event, they respawn when you log back in
+// queue: 
+// - https://youtu.be/T0ulsgorBkY?list=PLn23LiLYLb1Y3P9S9qZbijcJihiD416jT
+// - https://youtu.be/HwGAzcmvF9k?list=PLn23LiLYLb1Y3P9S9qZbijcJihiD416jT
+// npc spawns only after interface is closed
+queue(macro_event_login, 0);
+
+~initalltabs;
+
+if (map_production = true) {
+    if_openfull(inter_353, inter_313);
+    if_settext(inter_353:com_1,"Did you know, all the weapon stats are listed on our new");
+    if_settext(inter_353:com_2,"Knowledge Base?");
+    // todo: Set if player has pin? 
+    if_settext(inter_313:com_19,"You do not have a Bank PIN. Please visit a bank\\nif you would like one.");
+    last_login_info;
+} */
+
+
+[proc,initalltabs]
+~update_weapon_category(inv_getobj(worn, ^wearpos_rhand));
+if_settab(stats, ^tab_skills);
+if_settab(questlist, ^tab_quest_journal);
+~update_questlist;
+
+inv_transmit(inv, inventory:inv);
+inv_transmit(worn, wornitems:worn);
+
+if_settab(inventory, ^tab_inventory);
+if_settab(wornitems, ^tab_wornitems);
+
+if_settab(prayer, ^tab_prayer);
+if_settab(magic, ^tab_magic);
+if_settab(friends, ^tab_friends);
+if_settab(ignore, ^tab_ignore);
+if_settab(logout, ^tab_logout);
+if_settab(controls, ^tab_player_controls);
+if (lowmemory = true) {
+    if_settab(options_ld, ^tab_game_options);
+    if_settab(music_ld, ^tab_musicplayer);
+} else {
+    if_settab(options, ^tab_game_options);
+    if_settab(music, ^tab_musicplayer);
+}

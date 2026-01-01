@@ -1,0 +1,420 @@
+0	push_constant_int
+1	push_varp
+2	pop_varp
+3	push_constant_string
+4	push_varn
+5	pop_varn
+6	branch
+7	branch_not
+8	branch_equals
+9	branch_less_than
+10	branch_greater_than
+11	push_vars
+12	pop_vars
+21	return
+22	gosub
+23	jump
+24	switch
+25	push_varbit
+27	pop_varbit
+31	branch_less_than_or_equals
+32	branch_greater_than_or_equals
+33	push_int_local
+34	pop_int_local
+35	push_string_local
+36	pop_string_local
+37	join_string
+38	pop_int_discard
+39	pop_string_discard
+40	gosub_with_params
+41	jump_with_params
+44	define_array
+45	push_array_int
+46	pop_array_int
+1000	coordx
+1001	coordy
+1002	coordz
+1003	distance
+1004	huntall	none	find_player	none
+1005	huntnext	find_player:find_player	CONDITIONAL:active_player:active_player2	none
+1006	inzone
+1007	lineofsight
+1008	lineofwalk
+1009	map_blocked
+1010	map_indoors
+1011	map_clock
+1012	map_locaddunsafe
+1013	map_members
+1014	map_playercount
+1015	map_findsquare
+1016	movecoord
+1017	playercount
+1018	projanim_map
+1019	projanim_npc	active_npc:active_npc2	none	none
+1020	projanim_pl	active_player:active_player2	none	none
+1021	seqlength
+1022	split_get
+1023	split_getanim
+1024	split_init
+1025	split_linecount
+1026	split_pagecount
+1027	spotanim_map
+1028	struct_param
+1029	world_delay
+1030	npccount
+1031	zonecount
+1032	loccount
+1033	objcount
+1034	map_multiway
+2000	allowdesign	active_player	none	none
+2001	anim	active_player:active_player2	none	none
+2002	bas_readyanim	active_player	none	none
+2003	bas_running	active_player	none	none
+2004	bas_turnonspot	active_player	none	none
+2005	bas_walk_b	active_player	none	none
+2006	bas_walk_f	active_player	none	none
+2007	bas_walk_l	active_player	none	none
+2008	bas_walk_r	active_player	none	none
+2009	buffer_full	active_player	none	none
+2010	buildappearance	active_player	none	none
+2011	busy	active_player:active_player2	none	none
+2012	cam_lookat	active_player:active_player2	none	none
+2013	cam_moveto	active_player:active_player2	none	none
+2014	cam_reset	active_player:active_player2	none	none
+2015	cam_shake	active_player:active_player2	none	none
+2016	clearqueue	active_player	none	none
+2017	clearsofttimer	active_player:active_player2	none	none
+2018	cleartimer	active_player:active_player2	none	none
+2019	gettimer	active_player:active_player2	none	none
+2020	coord	active_player:active_player2	none	none
+2021	damage	active_player:active_player2	none	none
+2022	displayname	active_player:active_player2	none	none
+2023	facesquare	active_player:active_player2	none	none
+2024	finduid	none	CONDITIONAL:active_player:active_player2	none
+2025	gender	active_player:active_player2	none	none
+2026	getqueue	active_player:active_player2	none	none
+2027	stat_advance	active_player	none	none
+2028	headicons_get	active_player	none	none
+2029	headicons_set	active_player	none	none
+2030	healenergy	active_player	none	none
+2031	hint_coord	active_player	none	none
+2032	hint_npc	active_player,active_npc	none	none
+2033	hint_player	active_player,active_player2	none	none
+2034	hint_stop	active_player	none	none
+2035	if_close	active_player:active_player2	none	none
+2036	tut_close	active_player	none	none
+2037	if_multizone
+2038	if_openchat	active_player	none	none
+2039	if_openfull	active_player	none	none
+2040	tut_open	active_player	none	none
+2041	if_openmain	active_player:active_player2	none	none
+2042	if_openoverlay	active_player:active_player2	none	none
+2043	if_openmain_side	active_player:active_player2	none	none
+2044	if_openside	active_player	none	none
+2045	if_setangle	active_player	none	none
+2046	if_setanim	active_player:active_player2	none	none
+2047	if_setcolour	active_player	none	none
+2048	if_sethide	active_player:active_player2	none	none
+2049	if_setmodel	active_player	none	none
+2050	if_setrecol	active_player	none	none
+2051	if_setnpchead	active_player	none	none
+2052	if_setobject	active_player	none	none
+2053	if_setplayerhead	active_player	none	none
+2054	if_setposition	active_player:active_player2	none	none
+2055	if_setresumebuttons	active_player	none	none
+2056	if_setrotation
+2057	if_settab	active_player	none	none
+2058	if_settabactive	active_player:active_player2	none	none
+2059	tut_flash	active_player	none	none
+2060	if_settext	active_player:active_player2	none	none
+2061	last_login_info	active_player	none	none
+2062	last_com	last_com	none	none
+2063	last_int	last_int	none	none
+2064	last_item	last_item	none	none
+2065	last_slot	last_slot	none	none
+2066	last_targetslot	last_targetslot	none	none
+2067	last_useitem	last_useitem	none	none
+2068	last_useslot	last_useslot	none	none
+2069	longqueue	active_player:active_player2	none	none
+2070	mes	active_player:active_player2	none	none
+2071	midi_jingle	active_player:active_player2	none	none
+2072	midi_song	active_player	none	none
+2073	name	active_player:active_player2	none	none
+2074	p_aprange	p_active_player	none	none
+2075	p_arrivedelay	p_active_player	none	find_player,find_npc,find_loc,find_obj,find_db,last_com,last_int,last_item,last_slot,last_targetslot,last_useitem,last_useslot
+2076	p_countdialog	p_active_player	last_int	find_player,find_npc,find_loc,find_obj,find_db,last_com,last_item,last_slot,last_targetslot,last_useitem,last_useslot
+2077	p_delay	p_active_player	none	find_player,find_npc,find_loc,find_obj,find_db,last_com,last_int,last_item,last_slot,last_targetslot,last_useitem,last_useslot
+2078	p_exactmove	p_active_player	none	none
+2079	p_finduid	none	CONDITIONAL:p_active_player,active_player:p_active_player2,active_player2	none
+2080	p_locmerge	p_active_player	none	none
+2081	p_logout	p_active_player	none	none
+2082	p_preventlogout	p_active_player:p_active_player2	none	none
+2083	p_opheld	p_active_player	none	none
+2084	p_oploc	p_active_player,active_loc	none	none
+2085	p_opnpc	p_active_player,active_npc	none	none
+2086	p_opnpct	p_active_player,active_npc	none	none
+2087	p_opobj	p_active_player,active_obj	none	none
+2088	p_opplayer	p_active_player,active_player2:p_active_player2,active_player	none	none
+2089	p_opplayert	p_active_player,active_player2:p_active_player2,active_player	none	none
+2090	p_pausebutton	p_active_player	last_com	find_player,find_npc,find_loc,find_obj,find_db,last_int,last_item,last_slot,last_targetslot,last_useitem,last_useslot
+2091	p_stopaction	p_active_player:p_active_player2	none	none
+2092	p_telejump	p_active_player:p_active_player2	none	none
+2093	p_teleport	p_active_player:p_active_player2	none	none
+2094	p_walk	p_active_player:p_active_player2	none	none
+2095	player_findallzone
+2096	player_findnext
+2097	queue	active_player:active_player2	none	none
+2098	say	active_player:active_player2	none	none
+2099	walktrigger	active_player:active_player2	none	none
+2100	settimer	active_player:active_player2	none	none
+2101	softtimer	active_player:active_player2	none	none
+2102	sound_synth	active_player:active_player2	none	none
+2103	spotanim_pl	active_player:active_player2	none	none
+2104	staffmodlevel	active_player:active_player2	none	none
+2105	stat	active_player:active_player2	none	none
+2106	stat_total
+2107	stat_add	active_player:active_player2	none	none
+2108	stat_base	active_player:active_player2	none	none
+2109	stat_heal	active_player:active_player2	none	none
+2110	stat_sub	active_player:active_player2	none	none
+2111	stat_boost	active_player:active_player2	none	none
+2112	stat_drain	active_player:active_player2	none	none
+2113	stat_random	active_player:active_player2	none	none
+2114	strongqueue
+2115	uid	active_player:active_player2	none	none
+2116	weakqueue	active_player:active_player2	none	none
+2117	if_openmainoverlay
+2118	afk_event
+2119	lowmemory	active_player	none	none
+2120	setidkit	p_active_player	none	none
+2121	p_clearpendingaction	p_active_player:p_active_player2	none	none
+2122	getwalktrigger	active_player:active_player2	none	none
+2123	busy2	active_player:active_player2	none	none
+2124	findhero	none	CONDITIONAL:active_player2:active_player	none
+2125	both_heropoints	active_player,active_player2:active_player2,active_player	none	none
+2126	setgender	p_active_player	none	none
+2127	setskincolour	p_active_player	none	none
+2128	p_animprotect	p_active_player:p_active_player2	none	none
+2129	runenergy	active_player:active_player2	none	none
+2130	weight	p_active_player:p_active_player2	none	none
+2131	last_coord	active_player:active_player2	none	none
+2132	session_log
+2133	wealth_event
+2134	p_run	p_active_player:p_active_player2	none	none
+2135	playermember
+2136	minimap_toggle	active_player:active_player2	none	none
+2137	if_setscrollpos	active_player	none	none
+2138	set_player_op	active_player	none	none
+2500	npc_add	none	active_npc:active_npc2	none
+2501	npc_anim	active_npc:active_npc2	none	none
+2502	npc_basestat	active_npc:active_npc2	none	none
+2503	npc_category	active_npc:active_npc2	none	none
+2504	npc_changetype	active_npc:active_npc2	none	none
+2505	npc_changetype_keepall	active_npc:active_npc2	none	none
+2506	npc_coord	active_npc:active_npc2	none	none
+2507	npc_damage	active_npc:active_npc2	none	none
+2508	npc_del	active_npc:active_npc2	none	none
+2509	npc_delay	active_npc:active_npc2	none	p_active_player,p_active_player2,find_player,find_npc,find_loc,find_obj,find_db,last_com,last_int,last_item,last_slot,last_targetslot,last_useitem,last_useslot
+2510	npc_facesquare	active_npc:active_npc2	none	none
+2511	npc_find	none	CONDITIONAL:active_npc:active_npc2	none
+2512	npc_findcat	none	CONDITIONAL:active_npc:active_npc2	none
+2513	npc_findallany	none	find_npc	none
+2514	npc_findall	none	find_npc	none
+2515	npc_findexact	none	CONDITIONAL:active_npc:active_npc2	none
+2516	npc_findhero	active_npc	CONDITIONAL:active_player:active_player	none
+2517	npc_findallzone	none	find_npc	none
+2518	npc_findnext	find_npc	CONDITIONAL:active_npc:active_npc2	none
+2519	npc_finduid	none	CONDITIONAL:active_npc:active_npc2	none
+2520	npc_getmode	active_npc:active_npc2	none	none
+2521	npc_heropoints	active_npc,active_player	none	none
+2522	npc_name	active_npc:active_npc2	none	none
+2523	npc_param	active_npc:active_npc2	none	none
+2524	npc_queue	active_npc:active_npc2	none	none
+2525	npc_range	active_npc:active_npc2	none	none
+2526	npc_say	active_npc:active_npc2	none	none
+2527	npc_hunt	none	active_npc:active_npc2	none
+2528	npc_huntall	none	find_npc	none
+2529	npc_huntnext	find_npc:find_npc	CONDITIONAL:active_npc:active_npc2	none
+2530	npc_sethunt	active_npc:active_npc2	none	none
+2531	npc_sethuntmode	active_npc:active_npc2	none	none
+2532	npc_setmode	active_npc:active_npc2	none	none
+2533	npc_walktrigger	active_npc:active_npc2	none	none
+2534	npc_settimer	active_npc:active_npc2	none	none
+2535	npc_stat	active_npc:active_npc2	none	none
+2536	npc_statadd	active_npc:active_npc2	none	none
+2537	npc_statheal	active_npc:active_npc2	none	none
+2538	npc_statsub	active_npc:active_npc2	none	none
+2539	npc_tele	active_npc:active_npc2	none	none
+2540	npc_telejump	active_npc:active_npc2	none	none
+2541	npc_type	active_npc:active_npc2	none	none
+2542	npc_uid	active_npc:active_npc2	none	none
+2543	spotanim_npc	active_npc:active_npc2	none	none
+2544	npc_walk	active_npc:active_npc2	none	none
+2545	npc_attackrange	active_npc:active_npc2	none	none
+2546	npc_hasop	active_npc:active_npc2	none	none
+2547	npc_arrivedelay	active_npc:active_npc2	none	p_active_player,p_active_player2,find_player,find_npc,find_loc,find_obj,find_db,last_com,last_int,last_item,last_slot,last_targetslot,last_useitem,last_useslot
+2548	npc_inrange	active_npc:active_npc2	none	none
+3000	loc_add	none	active_loc:active_loc2	none
+3001	loc_angle	active_loc:active_loc2	none	none
+3002	loc_anim	active_loc:active_loc2	none	none
+3003	loc_category	active_loc:active_loc2	none	none
+3004	loc_change	active_loc:active_loc2	none	none
+3005	loc_coord	active_loc:active_loc2	none	none
+3006	loc_del	active_loc:active_loc2	none	none
+3007	loc_find	none	CONDITIONAL:active_loc:active_loc2	none
+3008	loc_findallzone	none	find_loc:find_loc	none
+3009	loc_findnext	find_loc:find_loc	CONDITIONAL:active_loc:active_loc2	none
+3010	loc_name	active_loc:active_loc2	none	none
+3011	loc_param	active_loc:active_loc2	none	none
+3012	loc_shape	active_loc:active_loc2	none	none
+3013	loc_type	active_loc:active_loc2	none	none
+3500	obj_add	active_player:active_player	active_obj:active_obj2	none
+3501	obj_addall	none	active_obj:active_obj2	none
+3502	obj_coord	active_obj:active_obj2	none	none
+3503	obj_count	active_obj:active_obj2	none	none
+3504	obj_del	active_obj:active_obj2	none	none
+3505	obj_name	active_obj:active_obj2	none	none
+3506	obj_param	active_obj:active_obj2	none	none
+3507	obj_takeitem	active_obj,active_player:active_obj,active_player2	none	none
+3508	obj_type	active_obj:active_obj2	none	none
+3509	obj_find	none	active_obj:active_obj2	none
+3510	obj_findallzone	none	find_obj:find_obj	none
+3511	obj_findnext	find_obj:find_obj	CONDITIONAL:active_obj:active_obj2	none
+4000	nc_category
+4001	nc_debugname
+4002	nc_desc
+4003	nc_name
+4004	nc_op
+4005	nc_param
+4006	nc_size
+4007	nc_vislevel
+4100	lc_category
+4101	lc_debugname
+4102	lc_desc
+4103	lc_name
+4104	lc_op
+4105	lc_param
+4106	lc_width
+4107	lc_length
+4200	oc_category
+4201	oc_cert
+4202	oc_cost
+4203	oc_debugname
+4204	oc_desc
+4205	oc_iop
+4206	oc_members
+4207	oc_name
+4208	oc_op
+4209	oc_param
+4210	oc_stackable
+4211	oc_tradeable
+4212	oc_uncert
+4213	oc_wearpos2
+4214	oc_wearpos3
+4215	oc_wearpos
+4216	oc_weight
+4300	inv_allstock
+4301	inv_size
+4302	inv_stockbase
+4303	inv_add	active_player:active_player2	none	none
+4304	inv_changeslot	active_player:active_player2	none	none
+4305	inv_clear	active_player:active_player2	none	none
+4306	inv_del	active_player:active_player2	none	none
+4307	inv_delslot	active_player:active_player2	none	none
+4308	inv_dropitem	active_player:active_player2	active_obj:active_obj2	none
+4309	inv_dropitem_delayed	active_player:active_player2	active_obj:active_obj2	none
+4310	inv_dropslot	active_player:active_player2	active_obj:active_obj2	none
+4311	inv_freespace	active_player:active_player2	none	none
+4312	inv_getnum	active_player:active_player2	none	none
+4313	inv_getobj	active_player:active_player2	none	none
+4314	inv_itemspace	active_player:active_player2	none	none
+4315	inv_itemspace2	active_player:active_player2	none	none
+4316	inv_movefromslot	active_player:active_player2	none	none
+4317	inv_movetoslot	active_player:active_player2	none	none
+4318	both_moveinv	active_player,active_player2:active_player2,active_player	none	none
+4319	inv_moveitem	active_player:active_player2	none	none
+4320	inv_moveitem_cert	active_player:active_player2	none	none
+4321	inv_moveitem_uncert	active_player:active_player2	none	none
+4322	inv_setslot	active_player:active_player2	none	none
+4323	inv_total	active_player:active_player2	none	none
+4324	inv_totalcat	active_player:active_player2	none	none
+4325	inv_transmit	active_player:active_player2	none	none
+4326	invother_transmit	active_player,active_player2:active_player2,active_player	none	none
+4327	inv_stoptransmit	active_player:active_player2	none	none
+4328	both_dropslot	active_player,active_player2:active_player2,active_player	none	none
+4329	inv_dropall	active_player:active_player2	none	none
+4330	inv_totalparam	active_player:active_player2	none	none
+4331	inv_totalparam_stack	active_player:active_player2	none	none
+4332	inv_debugname
+4400	enum
+4401	enum_getoutputcount
+4500	append_num
+4501	append
+4502	append_signnum
+4503	lowercase
+4504	text_gender	active_player:active_player2	none	none
+4505	tostring
+4506	compare
+4507	text_switch
+4508	append_char
+4509	string_length
+4510	substring
+4511	string_indexof_char
+4512	string_indexof_string
+4600	add
+4601	sub
+4602	multiply
+4603	divide
+4604	random
+4605	randominc
+4606	interpolate
+4607	addpercent
+4608	setbit
+4609	clearbit
+4610	testbit
+4611	modulo
+4612	pow
+4613	invpow
+4614	and
+4615	or
+4616	min
+4617	max
+4618	scale
+4619	bitcount
+4620	togglebit
+4621	setbit_range
+4622	clearbit_range
+4623	getbit_range
+4624	setbit_range_toint
+4625	sin_deg
+4626	cos_deg
+4627	atan2_deg
+4628	abs
+7500	db_find_with_count
+7501	db_findnext	find_db	none	none
+7502	db_getfield
+7503	db_getfieldcount
+7504	db_listall_with_count	none	find_db	none
+7505	db_getrowtable
+7506	db_findbyindex
+7507	db_find_refine_with_count
+7508	db_find	none	find_db	none
+7509	db_find_refine	find_db	none	none
+7510	db_listall	none	find_db	none
+10000	error
+10001	map_production
+10002	map_lastclock
+10003	map_lastworld
+10004	map_lastclientin
+10005	map_lastnpc
+10006	map_lastplayer
+10007	map_lastlogout
+10008	map_lastlogin
+10009	map_lastzone
+10010	map_lastclientout
+10011	map_lastcleanup
+10012	map_lastbandwidthin
+10013	map_lastbandwidthout
+10014	timespent
+10015	gettimespent
+10016	console

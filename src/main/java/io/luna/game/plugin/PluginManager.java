@@ -6,6 +6,7 @@ import io.luna.game.event.Event;
 import io.luna.game.event.EventListenerPipeline;
 import io.luna.game.event.EventListenerPipelineSet;
 import io.luna.game.model.World;
+import util.EventBusBridge;
 
 import static java.util.Objects.requireNonNull;
 
@@ -46,11 +47,7 @@ public final class PluginManager {
      * @param msg The event to post.
      */
     public <E extends Event> void post(E msg) {
-        EventListenerPipeline<E> pipeline = (EventListenerPipeline<E>) pipelines.get(msg.getClass());
-        if (pipeline == null) {
-            return;
-        }
-        pipeline.post(msg);
+        EventBusBridge.Companion.getInstance().post(msg);
     }
 
     /**

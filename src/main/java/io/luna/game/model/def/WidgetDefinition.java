@@ -3,7 +3,6 @@ package io.luna.game.model.def;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import game.player.QuestJournalInterface;
 import io.luna.game.event.impl.WidgetItemClickEvent;
 import io.luna.net.msg.out.InventoryOverlayMessageWriter;
 import io.luna.net.msg.out.WidgetAnimationMessageWriter;
@@ -29,8 +28,7 @@ public final class WidgetDefinition implements Definition {
     public enum WidgetType {
 
         /**
-         * Holds a potentially scrollable interface with child widgets, may also hold hidden widgets. An example of
-         * this is the {@link QuestJournalInterface}. Visibility of hidden widget(s) can be toggled with
+         * Holds a potentially scrollable interface with child widgets, may also hold hidden widgets.
          * {@link WidgetVisibilityMessageWriter}. These types of widgets are also used with
          * {@link InventoryOverlayMessageWriter}.
          */
