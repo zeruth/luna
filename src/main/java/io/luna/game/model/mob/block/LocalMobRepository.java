@@ -5,7 +5,6 @@ import io.luna.game.model.World;
 import io.luna.game.model.mob.Mob;
 import io.luna.game.model.mob.Npc;
 import io.luna.game.model.mob.Player;
-import io.luna.game.model.mob.bot.Bot;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -110,10 +109,6 @@ public final class LocalMobRepository {
             Player otherPlayer = mob.asPlr();
             if(updatingPlayers.add(otherPlayer)) {
                 localPlayers.add(otherPlayer);
-                if (otherPlayer.isBot()) {
-                    Bot otherBot = otherPlayer.asBot();
-                    otherBot.getLocalHumans().add(player);
-                }
                 return true;
             }
         } else if (mob instanceof Npc) {
@@ -148,10 +143,6 @@ public final class LocalMobRepository {
         if (mob instanceof Player) {
             Player otherPlayer = mob.asPlr();
             localPlayers.remove(otherPlayer);
-            if (otherPlayer.isBot()) {
-                Bot otherBot = otherPlayer.asBot();
-                otherBot.getLocalHumans().remove(player);
-            }
         } else if (mob instanceof Npc) {
             Npc npc = mob.asNpc();
             localNpcs.remove(npc);

@@ -11,8 +11,6 @@ import io.luna.game.model.item.shop.ShopManager;
 import io.luna.game.model.mob.MobList;
 import io.luna.game.model.mob.Npc;
 import io.luna.game.model.mob.Player;
-import io.luna.game.model.mob.bot.BotManager;
-import io.luna.game.model.mob.bot.BotRepository;
 import io.luna.game.model.object.GameObjectList;
 import io.luna.game.persistence.GameSerializerManager;
 import io.luna.game.persistence.PersistenceService;
@@ -112,16 +110,6 @@ public final class World {
     private final MobList<Npc> npcList = new MobList<>(this, 16_384);
 
     /**
-     * A list of active bots.
-     */
-    private final BotRepository botRepository;
-
-    /**
-     * The bot manager.
-     */
-    private final BotManager botManager;
-
-    /**
      * The login service.
      */
     private final LoginService loginService = new LoginService(this);
@@ -206,9 +194,7 @@ public final class World {
 
         playerMap = new ConcurrentHashMap<>();
         collisionManager = new CollisionManager(this);
-        botRepository = new BotRepository(this);
         persistenceService = new PersistenceService(this);
-        botManager = new BotManager();
 
         // Initialize the connection pool.
         try {
@@ -231,7 +217,6 @@ public final class World {
     public void start() {
         items.startExpirationTask();
         collisionManager.build(false);
-        botManager.load();
     }
 
     /**
@@ -278,7 +263,6 @@ public final class World {
         postSynchronize();
 
         chunks.resetUpdatedChunks();
-        botManager.getInjectorManager().clearEvents();
         collisionManager.handleSnapshots();
 
         // Increment tick counter.
@@ -321,9 +305,6 @@ public final class World {
                 player.getControllers().process();
                 player.getWalking().process();
                 player.getActions().process();
-                if (player.isBot()) {
-                    player.asBot().process();
-                }
             } catch (Exception e) {
                 player.logout();
                 logger.warn("{} could not complete pre-synchronization.", player, e);
@@ -346,7 +327,7 @@ public final class World {
         // Prepare synchronizer for parallel updating.
         synchronizer.bulkRegister(playerList.size());
         for (Player player : playerList) {
-            if (player.getClient().isPendingLogout() || player.isBot()) {
+            if (player.getClient().isPendingLogout()) {
                 // No point of sending updates to a client that can't see entities.
                 synchronizer.arriveAndDeregister();
                 continue;
@@ -484,13 +465,6 @@ public final class World {
     }
 
     /**
-     * @return A list of active bots.
-     */
-    public BotRepository getBots() {
-        return botRepository;
-    }
-
-    /**
      * @return The game object manager.
      */
     public GameObjectList getObjects() {
@@ -537,13 +511,6 @@ public final class World {
      */
     public GameSerializerManager getSerializerManager() {
         return serializerManager;
-    }
-
-    /**
-     * @return The bot manager.
-     */
-    public BotManager getBotManager() {
-        return botManager;
     }
 
     /**

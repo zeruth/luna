@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Range;
 import io.luna.Luna;
 import io.luna.game.event.impl.SkillChangeEvent;
-import io.luna.game.model.mob.bot.Bot;
 import io.luna.game.plugin.PluginManager;
 
 import java.util.function.Function;
@@ -308,7 +307,7 @@ public final class Skill {
      */
     public void addExperience(double amount) {
         checkArgument(amount > 0, "amount <= 0");
-        double multiplier = set.getMob() instanceof Bot ? 1.0 : Luna.settings().game().experienceMultiplier();
+        double multiplier = Luna.settings().game().experienceMultiplier();
         setExperience(experience + (amount * multiplier));
     }
 

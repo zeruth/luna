@@ -192,7 +192,7 @@ public abstract class ItemContainerAction extends Action<Player> {
      * @return The message this action will send when the inventory is full.
      */
     public String onInventoryFull() {
-        return Inventory.INVENTORY_FULL_MESSAGE;
+        return "TODO: DELETE";
     }
 
     /**

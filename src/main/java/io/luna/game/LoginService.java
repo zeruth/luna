@@ -92,11 +92,6 @@ public final class LoginService extends AuthenticationService<LoginRequest> {
             request.client.sendLoginResponse(request.player, LoginResponse.WORLD_FULL);
             return false;
         }
-        if(world.getBots().exists(username)) {
-            // Regular player trying to log in as a bot.
-            request.client.sendLoginResponse(request.player, LoginResponse.COULD_NOT_COMPLETE_LOGIN);
-            return false;
-        }
         if (world.getPlayerMap().containsKey(username) ||
                 world.getLogoutService().isSavePending(username)) {
             // Account already online, or a save in progress.

@@ -6,7 +6,6 @@ import io.luna.game.model.Entity;
 import io.luna.game.model.Locatable;
 import io.luna.game.model.Position;
 import io.luna.game.model.collision.CollisionManager;
-import io.luna.game.model.mob.bot.Bot;
 import io.luna.game.model.path.BotPathfinder;
 import io.luna.game.model.path.GamePathfinder;
 import io.luna.game.model.path.PlayerPathfinder;
@@ -246,7 +245,6 @@ public class WalkingNavigator {
      * Selects the default pathfinder to use for this mob.
      *
      * <ul>
-     *     <li>{@link Bot} uses {@link BotPathfinder}.</li>
      *     <li>{@link Player} uses {@link PlayerPathfinder}.</li>
      *     <li>Other mobs use {@link SimplePathfinder}.</li>
      * </ul>
@@ -256,9 +254,7 @@ public class WalkingNavigator {
     private GamePathfinder<Position> getPathfinder() {
         int plane = mob.getPosition().getZ();
 
-        if (mob instanceof Bot) {
-            return new BotPathfinder(collisionManager, plane);
-        } else if (mob instanceof Player) {
+        if (mob instanceof Player) {
             return new PlayerPathfinder(collisionManager, plane);
         } else {
             return new SimplePathfinder(collisionManager);

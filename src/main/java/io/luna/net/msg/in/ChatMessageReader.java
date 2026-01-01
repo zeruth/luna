@@ -1,6 +1,5 @@
 package io.luna.net.msg.in;
 
-import engine.player.punishment.PunishmentHandler;
 import io.luna.game.event.impl.ChatEvent;
 import io.luna.game.model.mob.Player;
 import io.luna.net.codec.ValueType;
@@ -27,9 +26,6 @@ public final class ChatMessageReader extends GameMessageReader<ChatEvent> {
 
     @Override
     public boolean validate(Player player, ChatEvent event) {
-        if (PunishmentHandler.INSTANCE.notifyIfMuted(player)) {
-            return false;
-        }
         return event.getEffect() >= 0 && event.getColor() >= 0 && !event.getUnpackedMessage().isEmpty();
     }
 }

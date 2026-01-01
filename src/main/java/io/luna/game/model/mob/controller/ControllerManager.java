@@ -1,7 +1,6 @@
 package io.luna.game.model.mob.controller;
 
 import com.google.common.collect.Iterators;
-import game.skill.magic.teleportSpells.TeleportAction;
 import io.luna.game.event.impl.ControllableEvent;
 import io.luna.game.model.Position;
 import io.luna.game.model.mob.Player;
@@ -155,21 +154,6 @@ public final class ControllerManager implements Iterable<PlayerController> {
     public boolean checkLogout() {
         for (PlayerController controller : registered.values()) {
             if (!controller.canLogout(player)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Determines if the player is able to teleport or not.
-     *
-     * @param action The teleport action.
-     * @return {@code true} if the player is able to teleport.
-     */
-    public boolean checkTeleport(TeleportAction action) {
-        for (PlayerController controller : registered.values()) {
-            if (!controller.canTeleport(player, action)) {
                 return false;
             }
         }

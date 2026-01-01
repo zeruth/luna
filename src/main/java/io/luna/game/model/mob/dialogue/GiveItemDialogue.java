@@ -53,7 +53,7 @@ public final class GiveItemDialogue extends DialogueInterface {
             player.queue(new WidgetItemModelMessageWriter(307, 200, item.getId()));
             return true;
         }
-        player.sendMessage(Inventory.INVENTORY_FULL_MESSAGE);
+        player.sendMessage("TODO:DELETE");
         return false;
     }
 

@@ -157,7 +157,6 @@ public final class LunaServer {
         taskList.add(new MessageRepositoryFileParser(messageRepository));
         taskList.add(new EquipmentDefinitionFileParser());
         taskList.add(new NpcCombatDefinitionFileParser());
-        taskList.add(() -> context.getWorld().getBots().loadNames());
 
         ExecutorService pool = ExecutorUtils.threadPool("BackgroundLoaderThread");
         for (Runnable task : taskList) {

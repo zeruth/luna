@@ -31,9 +31,8 @@ public final class SqlGameSerializer extends GameSerializer {
 
             try (var results = loadData.executeQuery()) {
                 if (results.next()) {
-                    boolean isBot = results.getBoolean("bot");
                     String jsonData = results.getString("json_data");
-                    data = Attribute.getGsonInstance().fromJson(jsonData, isBot ? BotData.class : PlayerData.class);
+                    data = Attribute.getGsonInstance().fromJson(jsonData, PlayerData.class);
                 }
             }
         } catch (Exception e) {
@@ -119,7 +118,7 @@ public final class SqlGameSerializer extends GameSerializer {
             // Insert player data to the main table.
             insertPlayer.setString(1, username);
             insertPlayer.setString(2, data.password);
-            insertPlayer.setBoolean(3, data instanceof BotData);
+            insertPlayer.setBoolean(3, false); //mark not bot
             insertPlayer.setString(4, data.rights.name());
             insertPlayer.setString(5, "[]");
             insertPlayer.executeUpdate();

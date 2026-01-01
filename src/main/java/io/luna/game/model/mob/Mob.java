@@ -1,7 +1,6 @@
 package io.luna.game.model.mob;
 
 import com.google.common.collect.ImmutableSet;
-import game.player.Sounds;
 import io.luna.LunaContext;
 import io.luna.game.action.Action;
 import io.luna.game.action.ActionQueue;
@@ -352,20 +351,13 @@ public abstract class Mob extends Entity {
     }
 
     /**
-     * Sets the current hitpoints of this mob, clamping the value to {@code >= 0}, and scheduling a
-     * {@link MobDeathTask} if this call transitions the mob from alive to dead.
+     * Sets the current hitpoints of this mob, clamping the value to {@code >= 0}
      *
      * @param amount The new hitpoint value.
      */
     public final void setHealth(int amount) {
         Skill hp = skill(HITPOINTS);
-        int levelBefore = hp.getLevel();
         hp.setLevel(Math.max(amount, 0));
-        if (levelBefore > 0 && hp.getLevel() <= 0) {
-            // TODO Determine the true killer/source after combat system is implemented.
-            Mob source = null;
-            world.schedule(new MobDeathTask(this, source));
-        }
     }
 
     /**
@@ -504,20 +496,6 @@ public abstract class Mob extends Entity {
             hit2(hit);
         } else {
             hit1(hit);
-        }
-
-        if (this instanceof Player) {
-            if (hit.getDamage() > 0) {
-                // TODO Refine per-hit sound selection once a proper combat sound system is implemented.
-                asPlr().playRandomSound(
-                        Sounds.TAKE_DAMAGE,
-                        Sounds.TAKE_DAMAGE_2,
-                        Sounds.TAKE_DAMAGE_3,
-                        Sounds.TAKE_DAMAGE_4
-                );
-            } else {
-                asPlr().playSound(Sounds.UNARMED_BLOCK);
-            }
         }
     }
 

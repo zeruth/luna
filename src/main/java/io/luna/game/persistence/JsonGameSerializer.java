@@ -49,8 +49,7 @@ public final class JsonGameSerializer extends GameSerializer {
             return null;
         }
         try {
-            return Attribute.getGsonInstance().fromJson(Files.readString(dir), parentDir == PLAYER_DIR ?
-                    PlayerData.class : BotData.class);
+            return Attribute.getGsonInstance().fromJson(Files.readString(dir), PlayerData.class);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -92,6 +91,6 @@ public final class JsonGameSerializer extends GameSerializer {
      * @return The direct path.
      */
     private Path getParentDir(World world, String username) {
-        return world.getBots().exists(username) ? BOT_DIR : PLAYER_DIR;
+        return PLAYER_DIR;
     }
 }

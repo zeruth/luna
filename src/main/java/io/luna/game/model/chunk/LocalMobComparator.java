@@ -151,8 +151,8 @@ public final class LocalMobComparator implements Comparator<Mob> {
     }
 
     private ComparableFactorData comparePlayers(Mob left, Mob right) {
-        int leftFactor = left instanceof Player && left.asPlr().isBot() ? 0 : 1;
-        int rightFactor = right instanceof Player && right.asPlr().isBot() ? 0 : 1;
+        int leftFactor = 1;
+        int rightFactor = 1;
         return computeWeightFactor(leftFactor, rightFactor, 12);
     }
 

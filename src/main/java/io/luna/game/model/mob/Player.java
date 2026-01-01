@@ -2,11 +2,6 @@ package io.luna.game.model.mob;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Stopwatch;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import game.item.consumable.potion.PotionCountdownTimer;
-import game.player.Messages;
-import game.player.Sounds;
 import io.luna.Luna;
 import io.luna.LunaContext;
 import io.luna.game.LogoutService;
@@ -28,7 +23,6 @@ import io.luna.game.model.mob.block.LocalMobRepository;
 import io.luna.game.model.mob.block.PlayerAppearance;
 import io.luna.game.model.mob.block.PlayerModelAnimation;
 import io.luna.game.model.mob.block.UpdateFlagSet.UpdateFlag;
-import io.luna.game.model.mob.bot.Bot;
 import io.luna.game.model.mob.controller.ControllerManager;
 import io.luna.game.model.mob.dialogue.DialogueQueue;
 import io.luna.game.model.mob.dialogue.DialogueQueueBuilder;
@@ -69,7 +63,7 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Represents a player-controlled mob (human client or {@link Bot}) within the game world.
+ * Represents a player-controlled mob (human client) within the game world.
  *
  * @author lare96
  */
@@ -403,9 +397,6 @@ public class Player extends Mob {
             setPosition(Luna.settings().game().startingPosition());
             rights = Luna.settings().game().betaMode() || LunaChannelFilter.WHITELIST.contains(client.getIpAddress()) ?
                     PlayerRights.DEVELOPER : PlayerRights.PLAYER;
-            if (isBot()) {
-                rights = PlayerRights.PLAYER;
-            }
         }
     }
 
@@ -511,12 +502,9 @@ public class Player extends Mob {
     /**
      * Shortcut for queuing a {@link GameChatboxMessageWriter} packet.
      *
-     * @param msg The message or {@link Messages} enum to send.
+     * @param msg The message to send.
      */
     public void sendMessage(Object msg) {
-        if (msg instanceof Messages) {
-            msg = ((Messages) msg).getText();
-        }
         queue(new GameChatboxMessageWriter(msg));
     }
 
@@ -625,25 +613,6 @@ public class Player extends Mob {
     }
 
     /**
-     * Returns whether this player is a {@link Bot}.
-     *
-     * @return {@code true} if this player is actually a bot instance.
-     */
-    public boolean isBot() {
-        return this instanceof Bot;
-    }
-
-    /**
-     * Casts this player to {@link Bot}.
-     *
-     * @return This instance, cast to {@link Bot}.
-     * @throws ClassCastException If this player is not a bot.
-     */
-    public Bot asBot() {
-        return (Bot) this;
-    }
-
-    /**
      * Requests a graceful logout by sending the logout packet.
      * <p>
      * This is the normal way to log a player out and will be handled via {@link LogoutService}.
@@ -729,66 +698,6 @@ public class Player extends Mob {
         int deltaX = position.getLocalX(lastRegion);
         int deltaY = position.getLocalY(lastRegion);
         return deltaX <= 15 || deltaX >= 88 || deltaY <= 15 || deltaY >= 88;
-    }
-
-    /**
-     * Plays a random sound from the given set of {@link Sounds}.
-     *
-     * @param sounds One or more possible sounds to choose from.
-     */
-    public void playRandomSound(Sounds... sounds) {
-        if (sounds.length == 1) {
-            playSound(sounds[0]);
-        } else if (sounds.length > 1) {
-            playSound(RandomUtils.random(sounds), 0);
-        }
-    }
-
-    /**
-     * Plays a {@link Sounds} enum value immediately.
-     *
-     * @param sound The sound to play.
-     */
-    public void playSound(Sounds sound) {
-        playSound(sound, 0);
-    }
-
-    /**
-     * Plays a {@link Sounds} enum value with a delay in game ticks.
-     *
-     * @param sound The sound to play.
-     * @param delayTicks The delay in game ticks before the sound is played.
-     */
-    public void playSound(Sounds sound, int delayTicks) {
-        int delay = (delayTicks * 600) / 30;
-        int volume = varpManager.getValue(PersistentVarp.EFFECTS_VOLUME);
-        queue(new SoundMessageWriter(sound.getId(), volume, delay));
-    }
-
-    /**
-     * Serializes all active {@link PotionCountdownTimer} actions to JSON for persistence.
-     *
-     * @return A {@link JsonArray} representing all active potion timers.
-     */
-    public JsonArray savePotionsToJson() {
-        JsonArray array = new JsonArray();
-        for (var timer : actions.getAll(PotionCountdownTimer.class)) {
-            array.add(timer.saveJson());
-        }
-        return array;
-    }
-
-    /**
-     * Restores all {@link PotionCountdownTimer} actions from the given JSON representation.
-     *
-     * @param array A {@link JsonArray} created by {@link #savePotionsToJson()}, or {@code null}.
-     */
-    public void loadPotionsFromJson(JsonArray array) {
-        if (array != null) {
-            for (JsonElement element : array) {
-                PotionCountdownTimer.Companion.loadJson(this, element.getAsJsonObject());
-            }
-        }
     }
 
     /**

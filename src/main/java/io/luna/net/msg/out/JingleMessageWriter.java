@@ -1,6 +1,5 @@
 package io.luna.net.msg.out;
 
-import game.player.Jingles;
 import io.luna.game.model.mob.Player;
 import io.luna.net.codec.ByteMessage;
 import io.luna.net.codec.ByteOrder;
@@ -17,7 +16,7 @@ public class JingleMessageWriter extends GameMessageWriter {
     /**
      * The jingle.
      */
-    private final Jingles jingle;
+    private final int jingle;
 
     /**
      * The last played song.
@@ -29,14 +28,14 @@ public class JingleMessageWriter extends GameMessageWriter {
      *
      * @param jingle The jingle.
      */
-    public JingleMessageWriter(Jingles jingle) {
+    public JingleMessageWriter(int jingle) {
         this.jingle = jingle;
     }
 
     @Override
     public ByteMessage write(Player player, ByteBuf buffer) {
         ByteMessage msg = ByteMessage.message(249, buffer);
-        msg.putShort(jingle.getId(), ByteOrder.LITTLE);
+        msg.putShort(jingle, ByteOrder.LITTLE);
         msg.putMedium(lastPlayed, ByteOrder.MIDDLE);
         return msg;
     }

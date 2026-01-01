@@ -95,7 +95,6 @@ public class PlayerData {
         player.setTimePlayed(timePlayed);
         player.setCreatedAt(createdAt);
         player.setPrivacyOptions(privacyOptions);
-        player.loadPotionsFromJson(potions);
     }
 
     /**
@@ -140,7 +139,6 @@ public class PlayerData {
         timePlayed = player.getTimePlayed();
         createdAt = player.getCreatedAt();
         privacyOptions = player.getPrivacyOptions();
-        potions = player.savePotionsToJson();
         return this;
     }
 

@@ -5,15 +5,13 @@ import io.luna.game.model.Locatable;
 import io.luna.game.model.Position;
 import io.luna.game.model.mob.Player;
 import io.luna.game.model.mob.PlayerContextMenuOption;
-import io.luna.game.model.mob.bot.Bot;
-import io.luna.game.model.mob.bot.injection.InjectableEvent;
 
 /**
  * A player-click based event. Not intended for interception.
  *
  * @author lare96
  */
-public class PlayerClickEvent extends PlayerEvent implements ControllableEvent, InteractableEvent, InjectableEvent {
+public class PlayerClickEvent extends PlayerEvent implements ControllableEvent, InteractableEvent {
 
     /**
      * An event sent when a player clicks antargetPlr player's fourth interaction index.
@@ -116,11 +114,6 @@ public class PlayerClickEvent extends PlayerEvent implements ControllableEvent, 
     @Override
     public Entity target() {
         return targetPlr;
-    }
-
-    @Override
-    public Locatable contextLocatable(Bot bot) {
-        return plr;
     }
 
     /**

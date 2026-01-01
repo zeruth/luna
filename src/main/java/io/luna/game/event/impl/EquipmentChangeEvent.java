@@ -3,8 +3,6 @@ package io.luna.game.event.impl;
 import io.luna.game.model.Locatable;
 import io.luna.game.model.item.Item;
 import io.luna.game.model.mob.Player;
-import io.luna.game.model.mob.bot.Bot;
-import io.luna.game.model.mob.bot.injection.InjectableEvent;
 
 import java.util.Optional;
 import java.util.OptionalInt;
@@ -14,7 +12,7 @@ import java.util.OptionalInt;
  *
  * @author lare96
  */
-public final class EquipmentChangeEvent extends PlayerEvent implements InjectableEvent {
+public final class EquipmentChangeEvent extends PlayerEvent {
 
     /**
      * The index.
@@ -44,11 +42,6 @@ public final class EquipmentChangeEvent extends PlayerEvent implements Injectabl
         this.index = index;
         this.oldItem = oldItem;
         this.newItem = newItem;
-    }
-
-    @Override
-    public Locatable contextLocatable(Bot bot) {
-        return plr;
     }
 
     /**

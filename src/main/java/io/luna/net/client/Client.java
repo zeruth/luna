@@ -1,7 +1,6 @@
 package io.luna.net.client;
 
 import com.google.common.base.MoreObjects;
-import io.luna.game.model.mob.bot.io.BotChannel;
 import io.luna.net.LunaChannelFilter;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -33,9 +32,6 @@ public abstract class Client<I> {
      * @return The IP address of the channel.
      */
     public static String getIpAddress(Channel channel) {
-        if(channel == BotChannel.CHANNEL) {
-            return "bot-client";
-        }
         try {
             InetSocketAddress socketAddress = (InetSocketAddress) channel.remoteAddress();
             return socketAddress.getAddress().getHostAddress();

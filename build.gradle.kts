@@ -66,9 +66,7 @@ kotlin {
             kotlin.setSrcDirs(emptyList<Any>())
             kotlin.srcDirs(
                 "src/main/java",
-                "src/main/kotlin/api",
-                "src/main/kotlin/engine",
-                "src/main/kotlin/game"
+                "src/main/kotlin/"
             )
         }
     }
