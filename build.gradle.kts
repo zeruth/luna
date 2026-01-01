@@ -1,7 +1,8 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    val kotlinVersion = "1.6.21"
+    val kotlinVersion = "2.2.21"
 
     java
     application
@@ -14,12 +15,13 @@ repositories {
 }
 
 dependencies {
+    implementation("io.github.nullpops:eventbus:1.0.1")
     implementation("com.google.code.gson:gson:2.9.1")
-    implementation("org.apache.logging.log4j:log4j-core:2.23.1")
+    implementation("org.apache.logging.log4j:log4j-core:2.25.3")
     implementation("org.apache.logging.log4j:log4j-api:2.23.1")
     implementation("org.slf4j:slf4j-nop:2.0.16")
     implementation("com.lmax:disruptor:3.4.2")
-    implementation("io.netty:netty-all:4.1.107.Final")
+    implementation("io.netty:netty-all:4.2.5.Final")
     implementation("com.google.guava:guava:33.4.8-jre")
     implementation("org.mindrot:jbcrypt:0.4")
     implementation("io.github.classgraph:classgraph:4.8.179")
@@ -48,8 +50,8 @@ application {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_23
+    targetCompatibility = JavaVersion.VERSION_23
 
     sourceSets {
         main {
@@ -77,10 +79,10 @@ tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
 
-tasks.withType<KotlinCompile>().all {
-    // todo Will need this flag in later versions.
-    //kotlinOptions.freeCompilerArgs = MutableList(1) { "-Xallow-any-scripts-in-source-roots" }
-    kotlinOptions.jvmTarget = "11"
+tasks.withType<KotlinCompile> {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_23)
+    }
 }
 
 tasks.named<Test>("test") {

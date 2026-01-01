@@ -60,14 +60,8 @@ public final class GameService extends AbstractScheduledService {
 
         @Override
         public void running() {
-            // Start the game world and run startup logic from Kotlin scripts.
-            loadPlugins();
             runSynchronizationTasks();
             world.start();
-
-            // Players won't be able to log in until startup tasks are complete, so it's fine to block the
-            // game thread.
-            runKotlinTasks(ServerLaunchEvent::new, "Waiting for Kotlin startup tasks to complete...");
 
             // Release the lock in LunaServer.
             onlineLock.complete(null);
@@ -91,23 +85,6 @@ public final class GameService extends AbstractScheduledService {
             // An exception was thrown on the game thread.
             logger.fatal("Luna has been terminated because of an uncaught exception!", failure);
             System.exit(1);
-        }
-
-        /**
-         * Initializes the {@link PluginBootstrap} which loads all Kotlin scripts and prepares event listeners.
-         */
-        private void loadPlugins() {
-            try {
-                PluginBootstrap bootstrap = new PluginBootstrap(context);
-                bootstrap.start();
-
-                int pluginCount = context.getPlugins().getPluginCount();
-                int scriptCount = context.getPlugins().getScriptCount();
-                logger.info("{} Kotlin plugins containing {} scripts have been loaded.", box(pluginCount), box(scriptCount));
-            } catch (Exception e) {
-                logger.fatal("Error loading plugins!", e);
-                System.exit(1);
-            }
         }
     }
 
@@ -225,21 +202,6 @@ public final class GameService extends AbstractScheduledService {
     }
 
     /**
-     * Runs both synchronous and asynchronous logic from Kotlin scripts and waits for it to complete.
-     *
-     * @param eventFunction Produces the event message to pass.
-     * @param waitingMessage The message to log while waiting for tasks to complete.
-     */
-    private <E extends Event> void runKotlinTasks(Function<ExecutorService, E> eventFunction, String waitingMessage) {
-        ExecutorService pool = ExecutorUtils.threadPool("BackgroundLoaderThread");
-        E msg = eventFunction.apply(pool);
-        context.getPlugins().post(msg);
-        pool.shutdown();
-        logger.info(waitingMessage);
-        awaitTerminationUninterruptibly(pool);
-    }
-
-    /**
      * Performs a graceful shutdown of Luna. A shutdown performed in this way allows Luna to properly save resources before the
      * application exits. This method will block for as long as it needs to until all important threads have completed their tasks.
      * <p>
@@ -255,9 +217,6 @@ public final class GameService extends AbstractScheduledService {
 
         // Run last minute game tasks from other threads.
         runSynchronizationTasks();
-
-        // Run shutdown code from Kotlin scripts, and wait for the asynchronous portions to complete.
-        runKotlinTasks(ServerShutdownEvent::new, "Waiting for Kotlin shutdown tasks to complete...");
 
         // Will stop any current and future logins.
         loginService.stopAsync().awaitTerminated();
