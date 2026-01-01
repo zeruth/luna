@@ -42,6 +42,9 @@ version = "1.0"
 
 application {
     mainClass = "io.luna.Luna"
+    applicationDefaultJvmArgs = listOf(
+        "--add-opens=java.base/java.time=ALL-UNNAMED"
+    )
 }
 
 java {
