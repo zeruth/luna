@@ -1,5 +1,5 @@
 [login,_]
-mes("Welcome to RuneScape.");
+mes("Welcome to RuneScript.");
 
 /* %musicplay = 1; // set to auto on login
 

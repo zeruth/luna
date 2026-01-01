@@ -3,10 +3,9 @@ package io.luna.game.plugin;
 import com.google.common.collect.ImmutableMap;
 import io.luna.LunaContext;
 import io.luna.game.event.Event;
-import io.luna.game.event.EventListenerPipeline;
 import io.luna.game.event.EventListenerPipelineSet;
 import io.luna.game.model.World;
-import util.EventBusBridge;
+import luna.util.EventBusBridge;
 
 import static java.util.Objects.requireNonNull;
 
@@ -42,7 +41,7 @@ public final class PluginManager {
     }
 
     /**
-     * Traverses the event across its designated pipeline.
+     * Posts the event to the Kotlin EventBust Bridge
      *
      * @param msg The event to post.
      */
