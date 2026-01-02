@@ -10,10 +10,12 @@ import rs.engine.script.frame.GoSubStackFrame
 import rs.engine.script.frame.JumpStackFrame
 import kotlin.Array
 
-class ScriptState(
+open class ScriptState(
     var script: ScriptFile? = null,
     val args: Array<Any>,
 ) {
+    constructor(script: ScriptFile) : this(script, emptyArray())
+
     companion object {
         const val ABORTED = -1
         const val RUNNING = 0
@@ -38,21 +40,21 @@ class ScriptState(
             }
         }
     }
-    val trigger: Int = script!!.info!!.lookupKey
+    val trigger: Int = if (script?.info == null) -1 else script!!.info!!.lookupKey
 
     var execution = RUNNING
     val executionHistory = mutableListOf<Int>()
 
-    var pc = -1
+    open var pc = -1
     var opcount = -1
 
-    var frames: Array<GoSubStackFrame> = emptyArray()
+    var frames = Array<GoSubStackFrame?>(512) { null }
     var fp = 0
 
     var debugFrames: Array<JumpStackFrame> = emptyArray()
     var debugFp = 0
 
-    var intStack: Array<Int?> = emptyArray()
+    var intStack = Array<Int?>(512) { null }
     var isp = 0
 
     var stringStack = Array<String?>(512) { null }
@@ -105,10 +107,19 @@ class ScriptState(
         return player;
     }
 
+    fun activePlayer(player: Player) {
+        _activePlayer = player;
+    }
+
 
     fun pointerAdd(pointer: ScriptPointer) {
         pointers = pointers or (1 shl pointer.ordinal)
     }
+
+    fun pointerGet(pointer: Int): Boolean {
+        return (pointers and (1 shl pointer)) != 0
+    }
+
 
     fun pointerCheck(vararg pointers: ScriptPointer) {
         for (i in pointers.indices) {
@@ -135,9 +146,25 @@ class ScriptState(
             text
     }
 
+    fun pushInt(value: Int) {
+        intStack[isp++] = value
+    }
 
     fun pushString(value: String) {
         stringStack[ssp++] = value
+    }
+
+    fun popInt(): Int {
+        val value = intStack[--isp]
+        return value ?: 0
+    }
+
+    fun popInts(amount: Int): IntArray {
+        val ints = IntArray(amount)
+        for (i in amount - 1 downTo 0) {
+            ints[i] = popInt()
+        }
+        return ints
     }
 
     fun popString(): String {
@@ -145,7 +172,7 @@ class ScriptState(
     }
 
     fun popFrame() {
-        val frame = frames[--fp]
+        val frame = frames[--fp]!!
         pc = frame.pc
         script = frame.script
         intLocals = frame.intLocals
@@ -171,5 +198,42 @@ class ScriptState(
         intLocals = emptyArray()
         stringLocals = emptyArray()
         pointers = 0
+    }
+
+    fun gosubFrame(proc: ScriptFile) {
+        frames[fp++] = GoSubStackFrame(
+            script!!,
+            pc,
+            intLocals,
+            stringLocals
+        )
+        setupNewScript(proc)
+    }
+
+    fun setupNewScript(script: ScriptFile) {
+        val argString = StringBuilder()
+
+        val intLocals = Array(script.intLocalCount) { 0 }
+        val intArgCount = script.intArgCount
+        for (index in 0 until intArgCount) {
+            val value = this.popInt()
+            intLocals[intArgCount - index - 1] = value
+            argString.append(" i(${value})")
+        }
+
+        val stringLocals = Array(script.stringLocalCount) { "" }
+        val stringArgCount = script.stringArgCount
+        for (index in 0 until stringArgCount) {
+            val value = this.popString()
+            stringLocals[stringArgCount - index - 1] = value
+            argString.append(" s(${value})")
+        }
+
+        println("${script.name()}$argString")
+
+        pc = -1
+        this.script = script
+        this.intLocals = intLocals
+        this.stringLocals = stringLocals
     }
 }

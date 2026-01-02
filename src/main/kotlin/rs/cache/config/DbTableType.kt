@@ -30,6 +30,8 @@ class DbTableType(id: Int) : ConfigType(id){
                     configNames[config.debugname!!] = id
                 }
             }
+
+            println("Loaded $count DbTableTypes")
         }
 
         fun get(id: Int) = configs[id]

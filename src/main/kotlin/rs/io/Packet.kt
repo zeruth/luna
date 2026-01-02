@@ -211,6 +211,14 @@ class Packet(val data: ByteArray, private val order: ByteOrder = ByteOrder.BIG_E
         return view.getInt()
     }
 
+    fun gsmart(): Int {
+        return if ((data[position()].toInt() and 0xFF) < 0x80) {
+            g1() - 0x40
+        } else {
+            g2() - 0xC000
+        }
+    }
+
     fun gdata(dest: ByteArray, offset: Int, length: Int) {
         System.arraycopy(data, position(), dest, offset, length)
         position(position() + length)

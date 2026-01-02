@@ -51,6 +51,7 @@ import io.luna.net.msg.out.WidgetTextMessageWriter;
 import io.luna.util.RandomUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import rs.engine.game.ModalState;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -1365,4 +1366,26 @@ public class Player extends Mob {
         this.skullIcon = skullIcon;
         flags.flag(UpdateFlag.APPEARANCE);
     }
+
+    /**
+     * RUNESCRIPT ENGINE
+     */
+
+    public HashMap<Integer, rs.engine.game.Inventory> invs = new HashMap<>();
+
+    public ModalState modalState = ModalState.NONE;
+
+    public boolean delayed = false;
+
+    public boolean protect = false;
+
+    public int animProtect = 0;
+
+    public int basReadyAnim = -1;
+
+    public int basTurnOnSpot = -1;
+
+    public int basWalkForward = -1;
+
+    public int basWalkBackward = -1;
 }

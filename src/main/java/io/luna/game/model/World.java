@@ -22,11 +22,9 @@ import io.luna.util.ExecutorUtils;
 import io.luna.util.SqlConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import rs.engine.game.Inventory;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -519,4 +517,12 @@ public final class World {
     public SqlConnectionPool getConnectionPool() {
         return connectionPool;
     }
+
+    /**
+     * RUNESCRIPT ENGINE
+     */
+
+    public HashMap<Integer, Inventory> invs = new HashMap<>();
+
+    public boolean shutdown = false;
 }

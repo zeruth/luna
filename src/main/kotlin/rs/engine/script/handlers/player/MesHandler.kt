@@ -1,13 +1,15 @@
-package rs.engine.script.handlers
+package rs.engine.script.handlers.player
 
 import rs.engine.script.RuneScriptOpcode
+import rs.engine.script.RuneScriptOpcodeHandler
 import rs.engine.script.ScriptPointer
-import rs.engine.script.ScriptPointer.Companion.checkedHandler
 import rs.engine.script.ScriptState
 
-class MesHandler : CommandHandler(RuneScriptOpcode.MES) {
+class MesHandler : RuneScriptOpcodeHandler(
+    RuneScriptOpcode.MES,
+    ScriptPointer.ActivePlayer
+) {
     override fun handle(state: ScriptState) {
-        state.checkedHandler(ScriptPointer.ActivePlayer)
         val message = state.popString()
 
         state.activePlayer().sendMessage(message)

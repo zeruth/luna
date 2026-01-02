@@ -1,7 +1,5 @@
 package rs.engine.script
 
-import rs.engine.script.handlers.CommandHandler
-
 enum class ScriptPointer {
     ActivePlayer,
     ActivePlayer2,
@@ -16,22 +14,32 @@ enum class ScriptPointer {
     _LAST;
 
     companion object {
-        fun ScriptState.checkedHandler(pointer: Any) {
+        val ActivePlayers =  arrayOf(ActivePlayer, ActivePlayer2)
+        val ProtectedActivePlayers =  arrayOf(ProtectedActivePlayer, ProtectedActivePlayer2)
+        val ActiveNpcs =  arrayOf(ActiveNpc, ActiveNpc2)
+        val ActiveLocs =  arrayOf(ActiveLoc, ActiveLoc2)
+        val ActiveObjs =  arrayOf(ActiveObj, ActiveObj2)
+
+        fun ScriptState.check(pointer: Any) {
             when (pointer) {
                 is ScriptPointer -> {
                     pointerCheck(pointer)
                 }
 
                 is Array<*> -> {
-                    val arr = pointer as Array<ScriptPointer>
-                    pointerCheck(arr[intOperand()])
-                    pointerCheck(*arr)
+                    val arr = pointer as? Array<ScriptPointer>
+                    if (arr?.isNotEmpty() == true) {
+                        pointerCheck(arr[intOperand()])
+                        pointerCheck(*arr)
+                    }
                 }
 
                 is List<*> -> {
-                    val list = pointer as List<ScriptPointer>
-                    pointerCheck(list[intOperand()])
-                    pointerCheck(*list.toTypedArray())
+                    val list = pointer as? List<ScriptPointer>
+                    if (list?.isNotEmpty() == true) {
+                        pointerCheck(list[intOperand()])
+                        pointerCheck(*list.toTypedArray())
+                    }
                 }
 
                 else -> {

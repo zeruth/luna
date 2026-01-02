@@ -1,9 +1,12 @@
-package rs.engine.script.handlers
+package rs.engine.script.handlers.core
 
 import rs.engine.script.RuneScriptOpcode
 import rs.engine.script.ScriptState
+import rs.engine.script.RuneScriptOpcodeHandler
 
-class ReturnHandler : CommandHandler(RuneScriptOpcode.RETURN) {
+class ReturnHandler : RuneScriptOpcodeHandler(
+    RuneScriptOpcode.RETURN
+) {
     override fun handle(state: ScriptState) {
         if (state.fp == 0) {
             state.execution = ScriptState.FINISHED

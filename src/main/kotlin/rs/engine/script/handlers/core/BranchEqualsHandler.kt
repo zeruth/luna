@@ -1,0 +1,18 @@
+package rs.engine.script.handlers.core
+
+import rs.engine.script.RuneScriptOpcode
+import rs.engine.script.ScriptState
+import rs.engine.script.RuneScriptOpcodeHandler
+import rs.engine.script.RuneScriptProvider
+
+class BranchEqualsHandler : RuneScriptOpcodeHandler(
+    RuneScriptOpcode.BRANCH_EQUALS
+) {
+    override fun handle(state: ScriptState) {
+        val b = state.popInt()
+        val a = state.popInt()
+
+        if (a == b)
+            state.pc += state.intOperand()
+    }
+}

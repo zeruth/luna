@@ -1,9 +1,12 @@
 package rs.engine.script
 
 import io.luna.game.event.impl.LoginEvent
+import me.filby.neptune.runescript.compiler.codegen.script.RuneScript
 import me.filby.neptune.serverscript.compiler.ServerScriptCompilerCLI
 import nullpops.events.GlobalEventBus
 import rs.cache.config.DbTableType
+import rs.cache.config.InvType
+import rs.engine.script.test.FakeScriptFile
 import rs.io.Packet
 import java.io.File
 
@@ -13,10 +16,16 @@ import java.io.File
  */
 object RuneScriptProvider {
 
+    fun RuneScript.target(): String {
+        return "[$trigger,$name$]"
+    }
+
     lateinit var loginScript: ScriptFile
     init {
+        println("---Lost-City RuneScript (377)---")
         DbTableType.load()
-
+        InvType.load()
+        println("--------------------------------")
         GlobalEventBus.subscribe<LoginEvent> {
             println(loginScript.name())
             val state = RuneScriptRunner.init(loginScript, it.payload.plr)
@@ -27,11 +36,12 @@ object RuneScriptProvider {
 
     private val dir = File("./data/scripts_bin/").toPath()
 
-    private lateinit var scripts: Array<ScriptFile?>
 
     private val scriptLookup = HashMap<Int, ScriptFile>()
 
     private val scriptNames = HashMap<String, Int>()
+
+    var scripts: Array<ScriptFile?> = emptyArray()
 
     @JvmStatic
     fun parse(): Int {
@@ -86,8 +96,12 @@ object RuneScriptProvider {
         }
 
         loginScript = scripts.filterNotNull().first { it.name().contains("login") }
-
-        println("Compiled/Loaded $loaded RuneScript Server Binaries in ${System.currentTimeMillis() - start} ms")
         return loaded
+    }
+
+    fun get(id: Int): ScriptFile? {
+        if (scripts.isEmpty())
+            return FakeScriptFile.simple(opcodes = intArrayOf(-1)) as ScriptFile
+        return scripts[id]
     }
 }

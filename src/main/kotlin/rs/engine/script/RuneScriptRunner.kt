@@ -5,18 +5,64 @@ import io.luna.game.model.item.GroundItem
 import io.luna.game.model.mob.Npc
 import io.luna.game.model.mob.Player
 import io.luna.game.model.`object`.GameObject
-import rs.engine.script.handlers.CommandHandler
-import rs.engine.script.handlers.MesHandler
-import rs.engine.script.handlers.PushConstStringHandler
-import rs.engine.script.handlers.ReturnHandler
+import rs.engine.script.ScriptPointer.Companion.check
+import rs.engine.script.handlers.inventory.*
+import rs.engine.script.handlers.core.*
+import rs.engine.script.handlers.player.*
 
 object RuneScriptRunner {
-    val handlers = HashMap<Int, CommandHandler?>()
+    val handlers = HashMap<Int, RuneScriptOpcodeHandler?>()
 
     init {
+        //Core (0-99)
+        handlers[RuneScriptOpcode.PUSH_CONSTANT_INT] = PushConstIntHandler()
         handlers[RuneScriptOpcode.PUSH_CONSTANT_STRING] = PushConstStringHandler()
+        handlers[RuneScriptOpcode.BRANCH] = BranchHandler()
+        handlers[RuneScriptOpcode.BRANCH_EQUALS] = BranchEqualsHandler()
+        handlers[RuneScriptOpcode.BRANCH_GREATER_THAN] = BranchGreaterThanHandler()
         handlers[RuneScriptOpcode.RETURN] = ReturnHandler()
+        handlers[RuneScriptOpcode.BRANCH_GREATER_THAN_OR_EQUALS] = BranchGreaterThanOrEqualsHandler()
+        handlers[RuneScriptOpcode.PUSH_INT_LOCAL] = PushIntLocalHandler()
+        handlers[RuneScriptOpcode.POP_INT_LOCAL] = PopIntLocalHandler()
+        handlers[RuneScriptOpcode.GOSUB_WITH_PARAMS] = GoSubWithParamsHandler()
+
+        // Server (1000-1999)
+
+        // Player (2000-2499)
+        handlers[RuneScriptOpcode.BAS_READYANIM] = BasReadyAnimHandler()
+        handlers[RuneScriptOpcode.BAS_TURNONSPOT] = BasTurnOnSpotHandler()
+        handlers[RuneScriptOpcode.BAS_WALK_F] = BasWalkFHandler()
         handlers[RuneScriptOpcode.MES] = MesHandler()
+        handlers[RuneScriptOpcode.P_FINDUID] = PFindUidHandler()
+        handlers[RuneScriptOpcode.STAFFMODLEVEL] = StaffModLevelHandler()
+        handlers[RuneScriptOpcode.UID] = UidHandler()
+        handlers[RuneScriptOpcode.P_ANIMPROTECT] = PAnimProtectHandler()
+
+        // Npc (2500-2999)
+
+        // Loc (3000-3499)
+
+        // Obj (3500-4000)
+
+        // Npc config (4000-4099)
+
+        // Loc config (4100-4199)
+
+        // Obj config (4200-4299)
+
+        // Inventory (4300-4399)
+        handlers[RuneScriptOpcode.INV_GETOBJ] = InvGetObjHandler()
+        handlers[RuneScriptOpcode.INV_TOTAL] = InvTotalHandler()
+
+        // Enum (4400-4499)
+
+        // String (4500-4599)
+
+        // Number (4600-4699)
+
+        // DB (7500-7599)
+
+        // Debug (10000-11000)
     }
 
     fun init(
@@ -141,6 +187,7 @@ object RuneScriptRunner {
 
     fun executeInner(state: ScriptState, opcode: Int?) {
         val handler = handlers[opcode] ?: throw IllegalStateException("Unknown opcode: $opcode")
+        state.check(handler.pointers)
         handler.handle(state)
     }
 }
