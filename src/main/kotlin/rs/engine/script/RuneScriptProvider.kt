@@ -15,7 +15,9 @@ import rs.cache.config.ParamType
 import rs.cache.config.StructType
 import rs.cache.config.VarNpcType
 import rs.cache.config.VarSharedType
+import rs.engine.OnDemand
 import rs.engine.script.test.FakeScriptFile
+import rs.io.FileStream
 import rs.io.Packet
 import java.io.File
 
@@ -63,6 +65,16 @@ object RuneScriptProvider {
         StructType.load()
         VarNpcType.load()
         VarSharedType.load()
+        println(".............Cache..............")
+        OnDemand
+        val cache = FileStream(File("./data/pack/").toPath())
+        val index = 2
+        val count = cache.count(index)
+        for (file in 0 until count) {
+            cache.read(index, file) ?: throw RuntimeException("could not read Config archive")
+        }
+        println("Loaded $count Configs")
+
         println("......Compiling RuneScript......")
         ServerScriptCompilerCLI.main(emptyArray())
 
@@ -114,7 +126,7 @@ object RuneScriptProvider {
         }
 
         loginScript = scripts.filterNotNull().first { it.name().contains("login") }
-        
+
         println("Lost-City Engine loaded in ${System.currentTimeMillis() - start}ms")
         println("--------------------------------")
         return loaded

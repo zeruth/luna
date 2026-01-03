@@ -1,13 +1,18 @@
 package rs.engine
 
 import io.luna.net.client.Client
+import rs.io.FileStream
 import rs.io.Packet
+import java.io.File
 import java.util.Timer
 import java.util.TimerTask
 
-class OnDemand {/*
+/**
+ * TODO
+ */
+object OnDemand {
 
-    private val cache = FileStream("data/pack")
+    private val cache =  FileStream(File("./data/pack/").toPath())
 
     private data class OnDemandRequest(
         val client: Client<*>,
@@ -36,26 +41,25 @@ class OnDemand {/*
         var i = 0
         while (i < urgentRequests.size) {
             val req = urgentRequests[i]
-            send(req.client, req.archive, req.file)
+            //send(req.client, req.archive, req.file)
             urgentRequests.removeAt(i)
         }
 
         i = 0
         while (i < extraRequests.size) {
             val req = extraRequests[i]
-            send(req.client, req.archive, req.file)
+            //send(req.client, req.archive, req.file)
             extraRequests.removeAt(i)
         }
 
         i = 0
         while (i < ingameRequests.size) {
             val req = ingameRequests[i]
-            send(req.client, req.archive, req.file)
+            //send(req.client, req.archive, req.file)
             ingameRequests.removeAt(i)
         }
     }
-
-    fun onClientData(client: Client<*>) {
+/*    fun onClientData(client: Client<*>) {
         if (client.state != 2) return
         if (client.available < 4) return
 

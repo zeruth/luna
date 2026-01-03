@@ -3,32 +3,26 @@ package ext
 import rs.io.Packet
 import java.io.File
 import java.io.RandomAccessFile
+import java.nio.file.Path
 
 class RandomAccessFile(
-    path: String,
+    path: Path,
     readOnly: Boolean = false
-) : RandomAccessFile(path, if (readOnly) "r" else "rw") {
-
-    private val raf: RandomAccessFile
+) : RandomAccessFile(path.toFile().absolutePath, if (readOnly) "r" else "rw") {
     var pos: Long = 0L
 
     init {
-        val file = File(path)
+        val file = path.toFile()
         if (!file.exists()) {
             file.parentFile?.mkdirs()
             file.createNewFile()
         }
-
-        raf = RandomAccessFile(file, if (readOnly) "r" else "rw")
     }
-
-    val length: Long
-        get() = raf.length()
 
     fun gdata(length: Int): ByteArray {
         val buffer = ByteArray(length)
-        raf.seek(pos)
-        raf.readFully(buffer)
+        seek(pos)
+        readFully(buffer)
         pos += length
         return buffer
     }
@@ -44,12 +38,12 @@ class RandomAccessFile(
             else -> error("Unsupported buffer type: ${buffer::class}")
         }
 
-        raf.seek(pos)
-        raf.write(data)
+        seek(pos)
+        write(data)
         pos += data.size
     }
 
     override fun close() {
-        raf.close()
+        close()
     }
 }

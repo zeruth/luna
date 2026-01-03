@@ -6,9 +6,7 @@ import io.luna.game.model.mob.Npc
 import io.luna.game.model.mob.Player
 import io.luna.game.model.`object`.GameObject
 import rs.engine.script.ScriptPointer.Companion.check
-import rs.engine.script.handlers.inventory.*
-import rs.engine.script.handlers.core.*
-import rs.engine.script.handlers.player.*
+import rs.engine.script.handlers.*
 
 object RuneScriptRunner {
     val handlers = HashMap<Int, RuneScriptOpcodeHandler?>()

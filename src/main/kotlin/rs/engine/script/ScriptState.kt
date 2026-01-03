@@ -99,7 +99,8 @@ open class ScriptState(
     /**
      * Gets the active player. Automatically checks the operand to determine primary and secondary.
      */
-    fun activePlayer() : Player {
+    val activePlayer: Player
+        get() : Player {
         val player = if (this.intOperand() == 0) this._activePlayer else this._activePlayer2
         if (player == null) {
             throw RuntimeException("Attempt to access null active_player")

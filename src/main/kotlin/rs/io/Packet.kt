@@ -233,7 +233,11 @@ class Packet(val data: ByteArray, private val order: ByteOrder = ByteOrder.BIG_E
 
     fun gdata(dest: ByteArray, offset: Int, length: Int) {
         System.arraycopy(data, position(), dest, offset, length)
-        position(position() + length)
+        move(length)
     }
 
+    fun pdata(src: ByteArray, offset: Int, length: Int) {
+        System.arraycopy(src, offset, data, position(), length)
+        move(length)
+    }
 }
