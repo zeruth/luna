@@ -4,8 +4,17 @@ import io.luna.game.event.impl.LoginEvent
 import me.filby.neptune.runescript.compiler.codegen.script.RuneScript
 import me.filby.neptune.serverscript.compiler.ServerScriptCompilerCLI
 import nullpops.events.GlobalEventBus
+import rs.cache.config.CategoryType
+import rs.cache.config.DbRowType
 import rs.cache.config.DbTableType
+import rs.cache.config.EnumType
+import rs.cache.config.HuntType
 import rs.cache.config.InvType
+import rs.cache.config.MesAnimType
+import rs.cache.config.ParamType
+import rs.cache.config.StructType
+import rs.cache.config.VarNpcType
+import rs.cache.config.VarSharedType
 import rs.engine.script.test.FakeScriptFile
 import rs.io.Packet
 import java.io.File
@@ -22,10 +31,6 @@ object RuneScriptProvider {
 
     lateinit var loginScript: ScriptFile
     init {
-        println("---Lost-City RuneScript (377)---")
-        DbTableType.load()
-        InvType.load()
-        println("--------------------------------")
         GlobalEventBus.subscribe<LoginEvent> {
             println(loginScript.name())
             val state = RuneScriptRunner.init(loginScript, it.payload.plr)
@@ -46,6 +51,19 @@ object RuneScriptProvider {
     @JvmStatic
     fun parse(): Int {
         val start = System.currentTimeMillis()
+        println("---Lost-City (377)---")
+        CategoryType.load()
+        DbRowType.load()
+        DbTableType.load()
+        EnumType.load()
+        HuntType.load()
+        InvType.load()
+        MesAnimType.load()
+        ParamType.load()
+        StructType.load()
+        VarNpcType.load()
+        VarSharedType.load()
+        println("......Compiling RuneScript......")
         ServerScriptCompilerCLI.main(emptyArray())
 
         val datPath = dir.resolve("script.dat")
@@ -96,6 +114,9 @@ object RuneScriptProvider {
         }
 
         loginScript = scripts.filterNotNull().first { it.name().contains("login") }
+        
+        println("Lost-City Engine loaded in ${System.currentTimeMillis() - start}ms")
+        println("--------------------------------")
         return loaded
     }
 

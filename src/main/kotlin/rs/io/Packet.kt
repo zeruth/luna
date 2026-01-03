@@ -189,6 +189,18 @@ class Packet(val data: ByteArray, private val order: ByteOrder = ByteOrder.BIG_E
         return view.getShort().toInt()
     }
 
+    fun g3(): Int {
+        move(3)
+        return ((data[position() - 3].toInt() and 0xFF) shl 16) or
+                ((data[position() - 2].toInt() and 0xFF) shl 8) or
+                (data[position() - 1].toInt() and 0xFF)
+    }
+
+    fun gbool() : Boolean {
+        return g1() == 1
+    }
+
+
     fun gjstr(terminator: Int = 10): String {
         var pos = position()
         val length = length()  // matches DataView.byteLength

@@ -1,4 +1,4 @@
-package rs.cache.config
+package rs.cache
 
 import rs.io.Packet
 

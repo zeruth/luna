@@ -1,6 +1,7 @@
 package rs.cache.config
 
 import ext.ArrayListExt.ensure
+import rs.cache.ConfigType
 import rs.io.Packet
 import java.io.File
 
@@ -68,38 +69,50 @@ class InvType(id: Int) : ConfigType(id){
     var dummyinv = false; // inv only accepts objs with dummyitem=inv_only
 
     override fun decode(code: Int, dat: Packet) {
-        if (code == 1) {
-            scope = dat.g1()
-        } else if (code == 2) {
-            size = dat.g2()
-        } else if (code == 3) {
-            stackall = true
-        } else if (code == 4) {
-            val count = dat.g1()
-
-            stockobj.ensure(count)
-            stockcount.ensure(count)
-            stockrate.ensure(count)
-
-            for (i in 0 until count) {
-                stockobj[i] = dat.g2()
-                stockcount[i] = dat.g2()
-                stockrate[i] = dat.g4s()
+        when (code) {
+            1 -> {
+                scope = dat.g1()
             }
-        } else if (code == 5) {
-            restock = true
-        } else if (code == 6) {
-            allstock = true
-        } else if (code == 7) {
-            protect = true
-        } else if (code == 8) {
-            runweight = true
-        } else if (code == 9) {
-            dummyinv = true
-        } else if (code == 250) {
-            debugname = dat.gjstr()
-        } else {
-            throw IllegalArgumentException("Unrecognized inv config code: $code")
+            2 -> {
+                size = dat.g2()
+            }
+            3 -> {
+                stackall = true
+            }
+            4 -> {
+                val count = dat.g1()
+
+                stockobj.ensure(count)
+                stockcount.ensure(count)
+                stockrate.ensure(count)
+
+                for (i in 0 until count) {
+                    stockobj[i] = dat.g2()
+                    stockcount[i] = dat.g2()
+                    stockrate[i] = dat.g4s()
+                }
+            }
+            5 -> {
+                restock = true
+            }
+            6 -> {
+                allstock = true
+            }
+            7 -> {
+                protect = true
+            }
+            8 -> {
+                runweight = true
+            }
+            9 -> {
+                dummyinv = true
+            }
+            250 -> {
+                debugname = dat.gjstr()
+            }
+            else -> {
+                throw IllegalArgumentException("Unrecognized inv config code: $code")
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 package rs.cache.config
 
+import rs.cache.ConfigType
 import rs.io.Packet
-import rs.cache.config.ScriptVarType
 import java.io.File
 
 class DbTableType(id: Int) : ConfigType(id){
@@ -49,47 +49,53 @@ class DbTableType(id: Int) : ConfigType(id){
     var props: Array<Int> = emptyArray()
 
     override fun decode(code: Int, dat: Packet) {
-        if (code == 1) {
-            types = arrayOfNulls(dat.g1())
+        when (code) {
+            1 -> {
+                types = arrayOfNulls(dat.g1())
 
-            var setting = dat.g1()
+                var setting = dat.g1()
 
-            while (setting != 255) {
-                val column = setting and 0x7F
-                val hasDefault = (setting and 0x80) != 0
+                while (setting != 255) {
+                    val column = setting and 0x7F
+                    val hasDefault = (setting and 0x80) != 0
 
-                val columnTypes = IntArray(dat.g1())
-                for (i in columnTypes.indices) {
-                    columnTypes[i] = dat.g1()
-                }
-                types[column] = columnTypes.toTypedArray()
-
-                if (hasDefault) {
-                    if (defaultValues == null) {
-                        defaultValues = arrayOfNulls(types.size)
+                    val columnTypes = IntArray(dat.g1())
+                    for (i in columnTypes.indices) {
+                        columnTypes[i] = dat.g1()
                     }
-                    defaultValues!![column] = decodeValues(dat, column)
+                    types[column] = columnTypes.toTypedArray()
+
+                    if (hasDefault) {
+                        if (defaultValues == null) {
+                            defaultValues = arrayOfNulls(types.size)
+                        }
+                        defaultValues!![column] = decodeValues(dat, column)
+                    }
+
+                    setting = dat.g1()
                 }
-
-                setting = dat.g1()
             }
-        } else if (code == 250) {
-            this.debugname = dat.gjstr();
-        } else if (code == 251) {
-            columnNames = arrayOfNulls(dat.g1())
-
-            for (i in columnNames.indices) {
-                columnNames[i] = dat.gjstr()
+            250 -> {
+                this.debugname = dat.gjstr();
             }
-        } else if (code == 252) {
-            val size = dat.g1()
-            props = IntArray(size).toTypedArray()
+            251 -> {
+                columnNames = arrayOfNulls(dat.g1())
 
-            for (i in props.indices) {
-                props[i] = dat.g1()
+                for (i in columnNames.indices) {
+                    columnNames[i] = dat.gjstr()
+                }
             }
-        } else {
-            throw IllegalArgumentException("Unrecognized dbtable config code: $code")
+            252 -> {
+                val size = dat.g1()
+                props = IntArray(size).toTypedArray()
+
+                for (i in props.indices) {
+                    props[i] = dat.g1()
+                }
+            }
+            else -> {
+                throw IllegalArgumentException("Unrecognized dbtable config code: $code")
+            }
         }
     }
 

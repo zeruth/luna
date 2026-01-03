@@ -3,6 +3,7 @@ package rs.engine.script
 object RuneScriptOpcode {
     //Core (0-99)
     const val PUSH_CONSTANT_INT = 0
+    const val POP_VARP = 2
     const val PUSH_CONSTANT_STRING = 3
     const val BRANCH = 6
     const val BRANCH_EQUALS = 8
@@ -55,6 +56,7 @@ object RuneScriptOpcode {
     fun of(id: Int) : String {
         return when (id) {
             PUSH_CONSTANT_INT -> "PUSH_CONSTANT_INT"
+            POP_VARP -> "POP_VARP"
             PUSH_CONSTANT_STRING -> "PUSH_CONSTANT_STRING"
             BRANCH -> "BRANCH"
             BRANCH_EQUALS -> "BRANCH_EQUALS"
