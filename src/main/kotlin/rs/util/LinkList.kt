@@ -3,10 +3,8 @@ package rs.util
 @Suppress("UNCHECKED_CAST")
 class LinkList<T : Linkable> {
 
-    // sentinel node
     private val sentinel: Linkable = Linkable()
 
-    // runtime cursor
     var cursor: Linkable? = null
 
     init {

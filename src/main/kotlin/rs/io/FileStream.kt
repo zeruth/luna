@@ -1,107 +1,118 @@
 package rs.io
 
 import ext.RandomAccessFile
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import java.nio.file.Path
-import kotlin.io.path.createDirectories
-import kotlin.io.path.createFile
-import kotlin.io.path.exists
+import java.util.zip.GZIPInputStream
+import kotlin.io.path.*
 
-class FileStream(val dir: Path, val createNew: Boolean = false, val readOnly: Boolean = false) {
-    var dat: RandomAccessFile? = null
-    var idx: Array<RandomAccessFile?> = arrayOfNulls(5)
+class FileStream(
+    val dir: Path,
+    createNew: Boolean = false,
+    readOnly: Boolean = false
+) {
+
+    private var dat: RandomAccessFile? = null
+    private val idx: Array<RandomAccessFile?> = arrayOfNulls(5)
 
     var discardPacked = false
-    var packed: Array<Array<Array<Byte?>?>?> = arrayOfNulls(5)
+    private val packed: Array<Array<ByteArray?>?> = arrayOfNulls(5)
 
     init {
-        if (!dir.exists()) {
-            dir.createDirectories()
-        }
+        dir.createDirectories()
 
         val datPath = dir.resolve("main_file_cache.dat")
         if (createNew || !datPath.exists()) {
             datPath.createFile()
-
-            for (i in 0..4) {
-                val idxPath = dir.resolve("main_file_cache.idx$i")
-                idxPath.createFile()
+            for (i in 0 until 5) {
+                dir.resolve("main_file_cache.idx$i").createFile()
             }
         }
 
         dat = RandomAccessFile(datPath, readOnly)
 
-        for (i in 0..4) {
-            idx[i] = RandomAccessFile(dir.resolve("main_file_cache.idx$i"), readOnly);
-            packed[i] = arrayOfNulls<Array<Byte?>?>(0)
+        for (i in 0 until 5) {
+            idx[i] = RandomAccessFile(dir.resolve("main_file_cache.idx$i"), readOnly)
+            packed[i] = null
         }
     }
 
-    fun count(index: Int): Int {
-        if (index < 0 || index > idx.size || idx[index] == null)
-            return 0
-        val count = idx[index]!!.length().toInt() / 6
-        return count
+    fun count(archive: Int): Int {
+        val index = idx.getOrNull(archive) ?: return 0
+        return (index.length() / 6).toInt()
     }
 
-    fun read(archive: Int, file: Int, decompress: Boolean = false): Array<Byte?>? {
+    fun read(archive: Int, file: Int, decompress: Boolean = false): ByteArray? {
         val dat = dat ?: return null
+        val index = idx.getOrNull(archive) ?: return null
 
-        if (archive < 0 || archive > idx.size || idx[archive] == null) return null
-        if (file < 0 || file > count(archive)) return null
+        if (file !in 0 until count(archive)) return null
 
-        if (packed[archive]!!.isEmpty())
-            packed[archive] = arrayOfNulls<Array<Byte?>?>(count(archive))
-
-        packed[archive]?.get(file)?.let {
-            return it
+        val cache = packed[archive] ?: arrayOfNulls<ByteArray>(count(archive)).also {
+            packed[archive] = it
         }
 
-        val idx = idx[archive]
-        idx!!.pos = (file * 6).toLong()
-        val idxHeader = idx.gPacket(6)
+        cache[file]?.let { return it }
+
+        index.pos = (file * 6).toLong()
+        val idxHeader = index.gPacket(6)
 
         val size = idxHeader.g3()
         var sector = idxHeader.g3()
 
-        if (size > 2000000) return null
+        if (size !in 1..2_000_000) return null
         if (sector <= 0 || sector > dat.length() / 520) return null
 
         val data = Packet(ByteArray(size))
-        for (part in 0 until size) {
-            if (sector == 0) break
 
+        var part = 0
+        while (data.position() < size && sector != 0) {
             dat.pos = (sector * 520).toLong()
 
-            var available = size - data.position()
-            if (available > 512)
-                available = 512
+            val remaining = minOf(512, size - data.position())
+            val header = dat.gPacket(remaining + 8)
 
-            val header = dat.gPacket(available + 8)
             val sectorFile = header.g2()
             val sectorPart = header.g2()
             val nextSector = header.g3()
             val sectorIndex = header.g1()
 
-            if (file != sectorFile || part != sectorPart || archive != sectorIndex - 1) return null
+            if (
+                sectorFile != file ||
+                sectorPart != part ||
+                sectorIndex != archive + 1) return null
+
             if (nextSector < 0 || nextSector > dat.length() / 520) return null
 
-            data.pdata(header.data, header.position(), available);
-
-            sector = nextSector;
+            data.pdata(header.data, header.position(), remaining)
+            sector = nextSector
+            part++
         }
 
-        if (!decompress) {
-            if (!discardPacked) {
-                this.packed[archive]?.set(file, data.data.toTypedArray() as Array<Byte?>?)
-            }
+        val result = data.data
 
-            return data.data.toTypedArray() as Array<Byte?>?
+        if (!decompress && !discardPacked) {
+            cache[file] = result
         }
 
-        if (archive == 0) {
-            return data.data.toTypedArray() as Array<Byte?>?
+        return if (archive == 0) {
+            data.data
         } else {
-            return data.data.toTypedArray() as Array<Byte?>?
+            gunzipSync(data.data)
+        }
+    }
+
+    fun gunzipSync(data: ByteArray): ByteArray {
+        return GZIPInputStream(ByteArrayInputStream(data)).use { gzip ->
+            ByteArrayOutputStream().use { out ->
+                val buffer = ByteArray(4096)
+                var read: Int
+                while (gzip.read(buffer).also { read = it } > 0) {
+                    out.write(buffer, 0, read)
+                }
+                out.toByteArray()
+            }
         }
     }
 }
