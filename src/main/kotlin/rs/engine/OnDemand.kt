@@ -12,7 +12,7 @@ import java.util.TimerTask
  */
 object OnDemand {
 
-    private val cache =  FileStream(File("./data/pack/").toPath())
+    val cache =  FileStream(File("./data/pack/").toPath())
 
     private data class OnDemandRequest(
         val client: Client<*>,

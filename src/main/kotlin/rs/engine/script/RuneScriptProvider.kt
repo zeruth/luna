@@ -12,8 +12,13 @@ import rs.cache.config.FloType
 import rs.cache.config.HuntType
 import rs.cache.config.InvType
 import rs.cache.config.MesAnimType
+import rs.cache.config.NpcType
+import rs.cache.config.ObjType
 import rs.cache.config.ParamType
+import rs.cache.config.SeqType
+import rs.cache.config.SpotAnimType
 import rs.cache.config.StructType
+import rs.cache.config.VarBitType
 import rs.cache.config.VarNpcType
 import rs.cache.config.VarPlayerType
 import rs.cache.config.VarSharedType
@@ -64,8 +69,13 @@ object RuneScriptProvider {
         HuntType.load()
         InvType.load()
         MesAnimType.load()
+        NpcType.load()
+        ObjType.load()
         ParamType.load()
+        SeqType.load()
+        SpotAnimType.load()
         StructType.load()
+        VarBitType.load()
         VarNpcType.load()
         VarPlayerType.load()
         VarSharedType.load()

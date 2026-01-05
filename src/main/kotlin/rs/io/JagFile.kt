@@ -90,7 +90,7 @@ class JagFile(src: Packet) {
     companion object {
         fun load(path: File): JagFile {
             val file = JagFile(Packet.load(path))
-            println("Loaded JagFile ${path.path}")
+            //println("Loaded JagFile ${path.path}")
             return file
         }
 

@@ -15,19 +15,19 @@ class AnimFrame {
     var z: IntArray = IntArray(0)
 
     companion object {
-        var instances = emptyArray<AnimFrame?>()
+        val instances = mutableMapOf<Int, AnimFrame>()
         val order = ArrayList<Int>()
 
         fun load() {
-            instances = arrayOfNulls(/* grow as needed */ 10000)
-
-/*            val count = OnDemand.cache.count(2)
+            val count = OnDemand.cache.count(2)
             for (i in 0 until count) {
                 val data = OnDemand.cache.read(2, i, true)
                 if (data != null) {
                     unpack(data)
                 }
-            }*/
+            }
+
+            println("Loaded ${instances.values.size} Animation Frames")
         }
 
         fun unpack(src: ByteArray) {
@@ -35,7 +35,6 @@ class AnimFrame {
             meta.position(src.size - 8)
 
             var offset = 0
-
             val head = Packet(src)
             head.position(offset)
             offset += meta.g2() + 2
@@ -57,11 +56,11 @@ class AnimFrame {
             val baseId = AnimBase.unpack(baseData)
 
             val total = head.g2()
-
-            val bases = IntArray(500)
-            val xTmp = IntArray(500)
-            val yTmp = IntArray(500)
-            val zTmp = IntArray(500)
+            val tmpSize = 500
+            val basesTmp = IntArray(tmpSize)
+            val xTmp = IntArray(tmpSize)
+            val yTmp = IntArray(tmpSize)
+            val zTmp = IntArray(tmpSize)
 
             for (i in 0 until total) {
                 val id = head.g2()
@@ -83,7 +82,7 @@ class AnimFrame {
                         var cur = group - 1
                         while (cur > lastGroup) {
                             if (AnimBase.instances[baseId].types[cur] == AnimBase.OP_BASE) {
-                                bases[length] = cur
+                                basesTmp[length] = cur
                                 xTmp[length] = 0
                                 yTmp[length] = 0
                                 zTmp[length] = 0
@@ -94,40 +93,23 @@ class AnimFrame {
                         }
                     }
 
-                    bases[length] = group
+                    basesTmp[length] = group
+                    val defaultValue = if (AnimBase.instances[baseId].types[group] == AnimBase.OP_SCALE) 128 else 0
 
-                    var defaultValue = 0
-                    if (AnimBase.instances[baseId].types[group] == AnimBase.OP_SCALE) {
-                        defaultValue = 128
-                    }
-
-                    xTmp[length] =
-                        if ((flags and 0x1) != 0) tran2.gsmart() else defaultValue
-                    yTmp[length] =
-                        if ((flags and 0x2) != 0) tran2.gsmart() else defaultValue
-                    zTmp[length] =
-                        if ((flags and 0x4) != 0) tran2.gsmart() else defaultValue
+                    xTmp[length] = if ((flags and 0x1) != 0) tran2.gsmart() else defaultValue
+                    yTmp[length] = if ((flags and 0x2) != 0) tran2.gsmart() else defaultValue
+                    zTmp[length] = if ((flags and 0x4) != 0) tran2.gsmart() else defaultValue
 
                     lastGroup = group
                     length++
                 }
 
                 frame.length = length
-                frame.groups = IntArray(length)
-                frame.x = IntArray(length)
-                frame.y = IntArray(length)
-                frame.z = IntArray(length)
+                frame.groups = basesTmp.copyOf(length)
+                frame.x = xTmp.copyOf(length)
+                frame.y = yTmp.copyOf(length)
+                frame.z = zTmp.copyOf(length)
 
-                for (j in 0 until length) {
-                    frame.groups[j] = bases[j]
-                    frame.x[j] = xTmp[j]
-                    frame.y[j] = yTmp[j]
-                    frame.z[j] = zTmp[j]
-                }
-
-                if (id >= instances.size) {
-                    // optional: resize if you want safety
-                }
                 instances[id] = frame
             }
         }
