@@ -1,6 +1,7 @@
 package rs.io
 
 import ext.RandomAccessFile
+import luna.util.Compression
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.nio.file.Path
@@ -99,20 +100,7 @@ class FileStream(
         return if (archive == 0) {
             data.data
         } else {
-            gunzipSync(data.data)
-        }
-    }
-
-    fun gunzipSync(data: ByteArray): ByteArray {
-        return GZIPInputStream(ByteArrayInputStream(data)).use { gzip ->
-            ByteArrayOutputStream().use { out ->
-                val buffer = ByteArray(4096)
-                var read: Int
-                while (gzip.read(buffer).also { read = it } > 0) {
-                    out.write(buffer, 0, read)
-                }
-                out.toByteArray()
-            }
+            Compression.decompressGZipSync(data.data)
         }
     }
 }

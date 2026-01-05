@@ -8,6 +8,7 @@ import rs.cache.config.CategoryType
 import rs.cache.config.DbRowType
 import rs.cache.config.DbTableType
 import rs.cache.config.EnumType
+import rs.cache.config.FloType
 import rs.cache.config.HuntType
 import rs.cache.config.InvType
 import rs.cache.config.MesAnimType
@@ -58,6 +59,7 @@ object RuneScriptProvider {
         DbRowType.load()
         DbTableType.load()
         EnumType.load()
+        FloType.load()
         HuntType.load()
         InvType.load()
         MesAnimType.load()
