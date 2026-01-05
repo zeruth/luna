@@ -85,7 +85,7 @@ class ScriptFile(val id: Int) {
 
             val parameterTypeCount = stream.g1()
             for (i in 0 until parameterTypeCount) {
-                script.info!!.parameterTypes?.add(stream.g1());
+                script.info!!.parameterTypes.add(stream.g1());
             }
 
             val lineNumberTableLength = stream.g2()

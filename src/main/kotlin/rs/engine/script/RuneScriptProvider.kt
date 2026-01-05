@@ -15,6 +15,7 @@ import rs.cache.config.MesAnimType
 import rs.cache.config.ParamType
 import rs.cache.config.StructType
 import rs.cache.config.VarNpcType
+import rs.cache.config.VarPlayerType
 import rs.cache.config.VarSharedType
 import rs.engine.OnDemand
 import rs.engine.script.test.FakeScriptFile
@@ -66,6 +67,7 @@ object RuneScriptProvider {
         ParamType.load()
         StructType.load()
         VarNpcType.load()
+        VarPlayerType.load()
         VarSharedType.load()
         println(".............Cache..............")
         OnDemand
