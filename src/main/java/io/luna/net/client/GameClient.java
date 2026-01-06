@@ -3,6 +3,7 @@ package io.luna.net.client;
 import io.luna.game.LogoutService;
 import io.luna.game.LogoutService.LogoutRequest;
 import io.luna.game.model.mob.Player;
+import io.luna.net.codec.IsaacCipher;
 import io.luna.net.msg.GameMessage;
 import io.luna.net.msg.GameMessageReader;
 import io.luna.net.msg.GameMessageRepository;
@@ -10,6 +11,7 @@ import io.luna.net.msg.GameMessageWriter;
 import io.netty.channel.Channel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import rs.io.Packet;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -247,4 +249,14 @@ public class GameClient extends Client<GameMessage> {
     public GameMessageRepository getRepository() {
         return repository;
     }
+
+    /**
+     * RUNESCRIPT ENGINE
+     */
+
+    public Packet out = Packet.alloc(1);
+
+    public IsaacCipher encryptor;
+
+    public IsaacCipher decryptor;
 }

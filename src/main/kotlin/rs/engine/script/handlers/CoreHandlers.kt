@@ -1,5 +1,8 @@
 package rs.engine.script.handlers
 
+import rs.cache.config.ScriptVarType
+import rs.cache.config.VarPlayerType
+import rs.engine.game.PlayerExt.setVar
 import rs.engine.script.RuneScriptOpcode
 import rs.engine.script.RuneScriptOpcodeHandler
 import rs.engine.script.RuneScriptProvider
@@ -81,7 +84,13 @@ object PopVarpHandler : RuneScriptOpcodeHandler(
         if (player == null)
             throw RuntimeException("No Active Player")
 
-        //TODO
+        val varpType = VarPlayerType.get(state.intOperand() and 0xffff) ?: throw RuntimeException("No VarPlayerType")
+
+        if (varpType.type == ScriptVarType.STRING) {
+            player.setVar(varpType.id, state.popString());
+        } else {
+            player.setVar(varpType.id, state.popInt());
+        }
     }
 }
 

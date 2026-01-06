@@ -7,7 +7,6 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 class Packet(val data: ByteArray, private val order: ByteOrder = ByteOrder.BIG_ENDIAN) : DoublyLinkable() {
-
     companion object {
         private const val CRC32_POLYNOMIAL: Int = 0xEDB88320.toInt()
 
@@ -74,6 +73,46 @@ class Packet(val data: ByteArray, private val order: ByteOrder = ByteOrder.BIG_E
             }
             return packet
         }
+
+        @JvmStatic
+        fun alloc(type: Int): Packet {
+            var cached: Packet? = null
+
+            if (type == 0 && cacheMinCount > 0) {
+                cached = cacheMin.removeHead()
+                cacheMinCount--
+            } else if (type == 1 && cacheMidCount > 0) {
+                cached = cacheMid.removeHead()
+                cacheMidCount--
+            } else if (type == 2 && cacheMaxCount > 0) {
+                cached = cacheMax.removeHead()
+                cacheMaxCount--
+            } else if (type == 3 && cacheBigCount > 0) {
+                cached = cacheBig.removeHead()
+                cacheBigCount--
+            } else if (type == 4 && cacheHugeCount > 0) {
+                cached = cacheHuge.removeHead()
+                cacheHugeCount--
+            } else if (type == 5 && cacheUnimaginableCount > 0) {
+                cached = cacheUnimaginable.removeHead()
+                cacheUnimaginableCount--
+            }
+
+            if (cached != null) {
+                cached.position(0)
+                return cached
+            }
+
+            return when (type) {
+                0 -> Packet(ByteArray(100))
+                1 -> Packet(ByteArray(5_000))
+                2 -> Packet(ByteArray(30_000))
+                3 -> Packet(ByteArray(100_000))
+                4 -> Packet(ByteArray(500_000))
+                5 -> Packet(ByteArray(2_000_000))
+                else -> Packet(ByteArray(type))
+            }
+        }
     }
 
     private val view = ByteBuffer.wrap(data).order(order)
@@ -97,44 +136,7 @@ class Packet(val data: ByteArray, private val order: ByteOrder = ByteOrder.BIG_E
         return view.remaining()
     }
 
-    fun alloc(type: Int): Packet {
-        var cached: Packet? = null
 
-        if (type == 0 && cacheMinCount > 0) {
-            cached = cacheMin.removeHead()
-            cacheMinCount--
-        } else if (type == 1 && cacheMidCount > 0) {
-            cached = cacheMid.removeHead()
-            cacheMidCount--
-        } else if (type == 2 && cacheMaxCount > 0) {
-            cached = cacheMax.removeHead()
-            cacheMaxCount--
-        } else if (type == 3 && cacheBigCount > 0) {
-            cached = cacheBig.removeHead()
-            cacheBigCount--
-        } else if (type == 4 && cacheHugeCount > 0) {
-            cached = cacheHuge.removeHead()
-            cacheHugeCount--
-        } else if (type == 5 && cacheUnimaginableCount > 0) {
-            cached = cacheUnimaginable.removeHead()
-            cacheUnimaginableCount--
-        }
-
-        if (cached != null) {
-            cached.position(0)
-            return cached
-        }
-
-        return when (type) {
-            0 -> Packet(ByteArray(100))
-            1 -> Packet(ByteArray(5_000))
-            2 -> Packet(ByteArray(30_000))
-            3 -> Packet(ByteArray(100_000))
-            4 -> Packet(ByteArray(500_000))
-            5 -> Packet(ByteArray(2_000_000))
-            else -> Packet(ByteArray(type))
-        }
-    }
 
     fun release() {
         position(0)
@@ -172,6 +174,15 @@ class Packet(val data: ByteArray, private val order: ByteOrder = ByteOrder.BIG_E
         }
     }
 
+    fun p1(value: Int) {
+        move(1)
+        data[position() - 1] = value.toByte()
+    }
+
+    fun p1_alt3(v: Int) {
+        move(1)
+        data[position() - 1] = ((128 - v) and 0xFF).toByte()
+    }
 
     fun g1(): Int {
         return view.get().toInt() and 0xFF
@@ -180,6 +191,26 @@ class Packet(val data: ByteArray, private val order: ByteOrder = ByteOrder.BIG_E
     fun g1b(): Int {
         return view.get().toInt()
     }
+
+    fun p2(value: Int) {
+        move(2)
+        data[position() - 2] = ((value shr 8) and 0xFF).toByte()
+        data[position() - 1] = (value and 0xFF).toByte()
+    }
+
+
+    fun p2_alt1(v: Int) {
+        move(2)
+        data[position() - 2] = (v and 0xFF).toByte()
+        data[position() - 1] = ((v shr 8) and 0xFF).toByte()
+    }
+
+    fun p2_alt2(v: Int) {
+        move(2)
+        data[position() - 2] = ((v shr 8) and 0xFF).toByte()
+        data[position() - 1] = ((v + 128) and 0xFF).toByte()
+    }
+
 
     fun g2(): Int {
         return view.getShort().toInt() and 0xFFFF
@@ -195,6 +226,15 @@ class Packet(val data: ByteArray, private val order: ByteOrder = ByteOrder.BIG_E
                 ((data[position() - 2].toInt() and 0xFF) shl 8) or
                 (data[position() - 1].toInt() and 0xFF)
     }
+
+    fun p4_alt3(v: Int) {
+        move(4)
+        data[position() - 4] = ((v shr 16) and 0xFF).toByte()
+        data[position() - 3] = ((v shr 24) and 0xFF).toByte()
+        data[position() - 2] = (v and 0xFF).toByte()
+        data[position() - 1] = ((v shr 8) and 0xFF).toByte()
+    }
+
 
     fun gbool() : Boolean {
         return g1() == 1
@@ -240,4 +280,16 @@ class Packet(val data: ByteArray, private val order: ByteOrder = ByteOrder.BIG_E
         System.arraycopy(src, offset, data, position(), length)
         move(length)
     }
+
+    fun psize2(size: Int) {
+        data[position() - size - 2] = ((size shr 8) and 0xFF).toByte()
+        data[position() - size - 1] = (size and 0xFF).toByte()
+        move(2)
+    }
+
+    fun psize1(size: Int) {
+        data[position() - size - 1] = (size and 0xFF).toByte()
+        move(1)
+    }
+
 }

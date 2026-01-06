@@ -2,10 +2,10 @@
 mes("Welcome to RuneScript.");
 
 %musicplay = 1; // set to auto on login
+/*
 
 ~update_all(inv_getobj(worn, ^wearpos_rhand));
 
-/*
 cam_reset;
 
 set_player_op(null, 2, ^false);

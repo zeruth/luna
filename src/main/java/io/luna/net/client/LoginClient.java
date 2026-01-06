@@ -130,7 +130,9 @@ public class LoginClient extends Client<LoginRequestMessage> {
 
             var pipeline = channel.pipeline();
             var messageEncoder = new GameMessageEncoder(message.getEncryptor());
+            player.getClient().encryptor = message.getEncryptor();
             var messageDecoder = new GameMessageDecoder(message.getDecryptor(), messageRepository);
+            player.getClient().decryptor = message.getDecryptor();
             pipeline.replace("login-encoder", "game-encoder", messageEncoder);
             pipeline.replace("login-decoder", "game-decoder", messageDecoder);
             return true;

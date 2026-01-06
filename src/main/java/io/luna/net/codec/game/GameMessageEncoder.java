@@ -4,15 +4,18 @@ import io.luna.net.codec.IsaacCipher;
 import io.luna.net.codec.MessageType;
 import io.luna.net.msg.GameMessage;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import rs.net.msg.out.game.ServerGameMessage;
 
 /**
  * A {@link MessageToByteEncoder} implementation that encodes game messages.
  *
  * @author lare96
  */
-public final class GameMessageEncoder extends MessageToByteEncoder<GameMessage> {
+@ChannelHandler.Sharable
+public final class GameMessageEncoder extends MessageToByteEncoder<Object> {
 
     /**
      * The encryptor.
@@ -29,7 +32,12 @@ public final class GameMessageEncoder extends MessageToByteEncoder<GameMessage> 
     }
 
     @Override
-    public void encode(ChannelHandlerContext ctx, GameMessage msg, ByteBuf out) throws Exception {
+    public void encode(ChannelHandlerContext ctx, Object o, ByteBuf out) throws Exception {
+        if (o instanceof ServerGameMessage gameMsg) {
+            ServerGameMessage.Companion.write(gameMsg, out);
+            return;
+        }
+        GameMessage msg = (GameMessage) o;
         try {
             out.writeByte(msg.getOpcode() + encryptor.nextInt());
             if (msg.getType() == MessageType.VAR) {

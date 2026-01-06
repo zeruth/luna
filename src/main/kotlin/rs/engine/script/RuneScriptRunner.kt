@@ -14,6 +14,7 @@ object RuneScriptRunner {
     init {
         //Core (0-99)
         handlers[RuneScriptOpcode.PUSH_CONSTANT_INT] = PushConstIntHandler
+        handlers[RuneScriptOpcode.POP_VARP] = PopVarpHandler
         handlers[RuneScriptOpcode.PUSH_CONSTANT_STRING] = PushConstStringHandler
         handlers[RuneScriptOpcode.BRANCH] = BranchHandler
         handlers[RuneScriptOpcode.BRANCH_EQUALS] = BranchEqualsHandler

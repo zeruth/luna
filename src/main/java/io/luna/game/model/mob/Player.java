@@ -51,16 +51,13 @@ import io.luna.net.msg.out.WidgetTextMessageWriter;
 import io.luna.util.RandomUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import rs.cache.config.VarPlayerType;
 import rs.engine.game.ModalState;
+import rs.net.msg.out.game.ServerGameMessage;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -1388,4 +1385,10 @@ public class Player extends Mob {
     public int basWalkForward = -1;
 
     public int basWalkBackward = -1;
+
+    public String[] varsString = new String[VarPlayerType.Companion.count()];
+
+    public int[] vars = new int[VarPlayerType.Companion.count()];
+
+    public ArrayList<ServerGameMessage> buffer;
 }

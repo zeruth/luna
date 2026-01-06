@@ -5,6 +5,7 @@ import io.luna.net.codec.ByteMessage;
 import io.netty.buffer.ByteBuf;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import rs.net.msg.out.game.ServerGameProtPriority;
 
 /**
  * An abstraction model that converts raw written {@link ByteMessage} buffers into {@link GameMessage} types.
