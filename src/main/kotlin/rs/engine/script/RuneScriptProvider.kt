@@ -10,7 +10,9 @@ import rs.cache.config.DbTableType
 import rs.cache.config.EnumType
 import rs.cache.config.FloType
 import rs.cache.config.HuntType
+import rs.cache.config.IdkType
 import rs.cache.config.InvType
+import rs.cache.config.LocType
 import rs.cache.config.MesAnimType
 import rs.cache.config.NpcType
 import rs.cache.config.ObjType
@@ -67,7 +69,9 @@ object RuneScriptProvider {
         EnumType.load()
         FloType.load()
         HuntType.load()
+        IdkType.load()
         InvType.load()
+        LocType.load()
         MesAnimType.load()
         NpcType.load()
         ObjType.load()
@@ -80,14 +84,12 @@ object RuneScriptProvider {
         VarPlayerType.load()
         VarSharedType.load()
         println(".............Cache..............")
-        OnDemand
-        val cache = FileStream(File("./data/pack/").toPath())
-        val index = 2
-        val count = cache.count(index)
+        val configArchive = 2
+        val count = OnDemand.cache.count(configArchive)
         for (file in 0 until count) {
-            cache.read(index, file) ?: throw RuntimeException("could not read Config archive")
+            OnDemand.cache.read(configArchive, file) ?: throw RuntimeException("could not read Config archive")
         }
-        println("Loaded $count Configs")
+        println("[Configs] $count")
 
         println("......Compiling RuneScript......")
         ServerScriptCompilerCLI.main(emptyArray())

@@ -54,11 +54,11 @@ object Compression {
         }
     }
 
-    fun buffer(gzip: InputStream) : ByteArray {
+    fun buffer(src: InputStream) : ByteArray {
         val out = ByteArrayOutputStream()
         val buffer = ByteArray(4096)
         var read: Int
-        while (gzip.read(buffer).also { read = it } > 0) {
+        while (src.read(buffer).also { read = it } > 0) {
             out.write(buffer, 0, read)
         }
         return out.toByteArray()

@@ -8,7 +8,7 @@ import rs.engine.script.RuneScriptOpcodeHandler
 import rs.engine.script.ScriptPointer
 import rs.engine.script.ScriptState
 
-class InvGetObjHandler : RuneScriptOpcodeHandler(
+object InvGetObjHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.INV_GETOBJ,
     ScriptPointer.ActivePlayer
 ) {
@@ -21,7 +21,7 @@ class InvGetObjHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class InvTotalHandler : RuneScriptOpcodeHandler(
+object InvTotalHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.INV_TOTAL,
     ScriptPointer.ActivePlayer
 ) {

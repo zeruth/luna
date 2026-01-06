@@ -5,7 +5,7 @@ import rs.engine.script.RuneScriptOpcodeHandler
 import rs.engine.script.RuneScriptProvider
 import rs.engine.script.ScriptState
 
-class BranchEqualsHandler : RuneScriptOpcodeHandler(
+object BranchEqualsHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.BRANCH_EQUALS
 ) {
     override fun handle(state: ScriptState) {
@@ -17,7 +17,7 @@ class BranchEqualsHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class BranchGreaterThanHandler : RuneScriptOpcodeHandler(
+object BranchGreaterThanHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.BRANCH_GREATER_THAN
 ) {
     override fun handle(state: ScriptState) {
@@ -29,7 +29,7 @@ class BranchGreaterThanHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class BranchGreaterThanOrEqualsHandler : RuneScriptOpcodeHandler(
+object BranchGreaterThanOrEqualsHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.BRANCH_GREATER_THAN_OR_EQUALS
 ) {
     override fun handle(state: ScriptState) {
@@ -41,7 +41,7 @@ class BranchGreaterThanOrEqualsHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class BranchHandler : RuneScriptOpcodeHandler(
+object BranchHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.BRANCH
 ) {
     override fun handle(state: ScriptState) {
@@ -49,7 +49,7 @@ class BranchHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class GoSubWithParamsHandler : RuneScriptOpcodeHandler(
+object GoSubWithParamsHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.GOSUB_WITH_PARAMS
 ) {
     override fun handle(state: ScriptState) {
@@ -63,7 +63,7 @@ class GoSubWithParamsHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class PopIntLocalHandler : RuneScriptOpcodeHandler(
+object PopIntLocalHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.POP_INT_LOCAL
 ) {
     override fun handle(state: ScriptState) {
@@ -71,7 +71,7 @@ class PopIntLocalHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class PopVarpHandler : RuneScriptOpcodeHandler(
+object PopVarpHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.POP_VARP
 ) {
     override fun handle(state: ScriptState) {
@@ -85,7 +85,7 @@ class PopVarpHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class PushConstIntHandler : RuneScriptOpcodeHandler(
+object PushConstIntHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.PUSH_CONSTANT_INT
 ) {
     override fun handle(state: ScriptState) {
@@ -93,7 +93,7 @@ class PushConstIntHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class PushConstStringHandler : RuneScriptOpcodeHandler(
+object PushConstStringHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.PUSH_CONSTANT_STRING
 ) {
     override fun handle(state: ScriptState) {
@@ -101,7 +101,7 @@ class PushConstStringHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class PushIntLocalHandler : RuneScriptOpcodeHandler(
+object PushIntLocalHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.PUSH_INT_LOCAL
 ) {
     override fun handle(state: ScriptState) {
@@ -109,7 +109,7 @@ class PushIntLocalHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class ReturnHandler : RuneScriptOpcodeHandler(
+object ReturnHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.RETURN
 ) {
     override fun handle(state: ScriptState) {

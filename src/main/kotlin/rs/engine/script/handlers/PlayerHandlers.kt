@@ -9,7 +9,7 @@ import rs.engine.script.ScriptPointer.Companion.ActivePlayers
 import rs.engine.script.ScriptPointer.Companion.ProtectedActivePlayers
 import rs.engine.script.ScriptState
 
-class BasReadyAnimHandler : RuneScriptOpcodeHandler(
+object BasReadyAnimHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.BAS_READYANIM,
     ScriptPointer.ActivePlayer
 ) {
@@ -19,7 +19,7 @@ class BasReadyAnimHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class BasTurnOnSpotHandler : RuneScriptOpcodeHandler(
+object BasTurnOnSpotHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.BAS_TURNONSPOT,
     ScriptPointer.ActivePlayer
 ) {
@@ -29,7 +29,7 @@ class BasTurnOnSpotHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class BasWalkBHandler : RuneScriptOpcodeHandler(
+object BasWalkBHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.BAS_WALK_B,
     ScriptPointer.ActivePlayer
 ) {
@@ -39,7 +39,7 @@ class BasWalkBHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class BasWalkFHandler : RuneScriptOpcodeHandler(
+object BasWalkFHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.BAS_WALK_F,
     ScriptPointer.ActivePlayer
 ) {
@@ -49,7 +49,7 @@ class BasWalkFHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class MesHandler : RuneScriptOpcodeHandler(
+object MesHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.MES,
     ScriptPointer.ActivePlayer
 ) {
@@ -60,7 +60,7 @@ class MesHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class PAnimProtectHandler : RuneScriptOpcodeHandler(
+object PAnimProtectHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.P_ANIMPROTECT,
     ScriptPointer.ActivePlayer
 ) {
@@ -71,7 +71,7 @@ class PAnimProtectHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class PFindUidHandler : RuneScriptOpcodeHandler(
+object PFindUidHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.P_FINDUID,
     ScriptPointer.ActivePlayer
 ) {
@@ -98,7 +98,7 @@ class PFindUidHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class StaffModLevelHandler : RuneScriptOpcodeHandler(
+object StaffModLevelHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.STAFFMODLEVEL,
     ScriptPointer.ActivePlayer
 ) {
@@ -107,7 +107,7 @@ class StaffModLevelHandler : RuneScriptOpcodeHandler(
     }
 }
 
-class UidHandler : RuneScriptOpcodeHandler(
+object UidHandler : RuneScriptOpcodeHandler(
     RuneScriptOpcode.UID,
     ScriptPointer.ActivePlayer
 ) {

@@ -19,7 +19,7 @@ object WorldExt {
     }
 
     fun World.getPlayerByUid(uid: Int) : Player? {
-        for (player in getPlayers()) {
+        for (player in players) {
             if (player.index == uid)
                 return player
         }

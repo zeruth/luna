@@ -13,28 +13,28 @@ object RuneScriptRunner {
 
     init {
         //Core (0-99)
-        handlers[RuneScriptOpcode.PUSH_CONSTANT_INT] = PushConstIntHandler()
-        handlers[RuneScriptOpcode.PUSH_CONSTANT_STRING] = PushConstStringHandler()
-        handlers[RuneScriptOpcode.BRANCH] = BranchHandler()
-        handlers[RuneScriptOpcode.BRANCH_EQUALS] = BranchEqualsHandler()
-        handlers[RuneScriptOpcode.BRANCH_GREATER_THAN] = BranchGreaterThanHandler()
-        handlers[RuneScriptOpcode.RETURN] = ReturnHandler()
-        handlers[RuneScriptOpcode.BRANCH_GREATER_THAN_OR_EQUALS] = BranchGreaterThanOrEqualsHandler()
-        handlers[RuneScriptOpcode.PUSH_INT_LOCAL] = PushIntLocalHandler()
-        handlers[RuneScriptOpcode.POP_INT_LOCAL] = PopIntLocalHandler()
-        handlers[RuneScriptOpcode.GOSUB_WITH_PARAMS] = GoSubWithParamsHandler()
+        handlers[RuneScriptOpcode.PUSH_CONSTANT_INT] = PushConstIntHandler
+        handlers[RuneScriptOpcode.PUSH_CONSTANT_STRING] = PushConstStringHandler
+        handlers[RuneScriptOpcode.BRANCH] = BranchHandler
+        handlers[RuneScriptOpcode.BRANCH_EQUALS] = BranchEqualsHandler
+        handlers[RuneScriptOpcode.BRANCH_GREATER_THAN] = BranchGreaterThanHandler
+        handlers[RuneScriptOpcode.RETURN] = ReturnHandler
+        handlers[RuneScriptOpcode.BRANCH_GREATER_THAN_OR_EQUALS] = BranchGreaterThanOrEqualsHandler
+        handlers[RuneScriptOpcode.PUSH_INT_LOCAL] = PushIntLocalHandler
+        handlers[RuneScriptOpcode.POP_INT_LOCAL] = PopIntLocalHandler
+        handlers[RuneScriptOpcode.GOSUB_WITH_PARAMS] = GoSubWithParamsHandler
 
         // Server (1000-1999)
 
         // Player (2000-2499)
-        handlers[RuneScriptOpcode.BAS_READYANIM] = BasReadyAnimHandler()
-        handlers[RuneScriptOpcode.BAS_TURNONSPOT] = BasTurnOnSpotHandler()
-        handlers[RuneScriptOpcode.BAS_WALK_F] = BasWalkFHandler()
-        handlers[RuneScriptOpcode.MES] = MesHandler()
-        handlers[RuneScriptOpcode.P_FINDUID] = PFindUidHandler()
-        handlers[RuneScriptOpcode.STAFFMODLEVEL] = StaffModLevelHandler()
-        handlers[RuneScriptOpcode.UID] = UidHandler()
-        handlers[RuneScriptOpcode.P_ANIMPROTECT] = PAnimProtectHandler()
+        handlers[RuneScriptOpcode.BAS_READYANIM] = BasReadyAnimHandler
+        handlers[RuneScriptOpcode.BAS_TURNONSPOT] = BasTurnOnSpotHandler
+        handlers[RuneScriptOpcode.BAS_WALK_F] = BasWalkFHandler
+        handlers[RuneScriptOpcode.MES] = MesHandler
+        handlers[RuneScriptOpcode.P_FINDUID] = PFindUidHandler
+        handlers[RuneScriptOpcode.STAFFMODLEVEL] = StaffModLevelHandler
+        handlers[RuneScriptOpcode.UID] = UidHandler
+        handlers[RuneScriptOpcode.P_ANIMPROTECT] = PAnimProtectHandler
 
         // Npc (2500-2999)
 
@@ -49,8 +49,8 @@ object RuneScriptRunner {
         // Obj config (4200-4299)
 
         // Inventory (4300-4399)
-        handlers[RuneScriptOpcode.INV_GETOBJ] = InvGetObjHandler()
-        handlers[RuneScriptOpcode.INV_TOTAL] = InvTotalHandler()
+        handlers[RuneScriptOpcode.INV_GETOBJ] = InvGetObjHandler
+        handlers[RuneScriptOpcode.INV_TOTAL] = InvTotalHandler
 
         // Enum (4400-4499)
 
