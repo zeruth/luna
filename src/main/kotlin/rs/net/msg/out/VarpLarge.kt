@@ -7,9 +7,9 @@ import rs.net.msg.out.game.ServerGameProt.Companion.VARP_LARGE
 import rs.net.msg.out.game.ServerGameProtPriority.IMMEDIATE
 
 class VarpLarge(
+    player: Player,
     private val varp: Int,
     private val value: Int,
-    player: Player
 ) : ServerGameMessage(VARP_LARGE, IMMEDIATE, player) {
     override fun encode(buf: Packet) {
         buf.p4_alt3(value)

@@ -7,9 +7,9 @@ import rs.net.msg.out.game.ServerGameProt.Companion.VARP_SMALL
 import rs.net.msg.out.game.ServerGameProtPriority.IMMEDIATE
 
 class VarpSmall(
+    player: Player,
     private val varp: Int,
     private val value: Int,
-    player: Player
 ) : ServerGameMessage(VARP_SMALL, IMMEDIATE, player) {
     override fun encode(buf: Packet) {
         buf.p2_alt2(varp)

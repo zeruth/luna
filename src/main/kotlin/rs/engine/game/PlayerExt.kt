@@ -85,28 +85,36 @@ object PlayerExt {
         return client.channel.isActive
     }
 
-    fun Player.writeInner(mesage: ServerGameMessage) {
-        client.channel.pipeline().write(mesage)
+    fun Player.writeInner(message: ServerGameMessage) {
+        client.channel.pipeline().write(message)
         //TODO: Track metrics
     }
 
-    fun Player.write(mesage: ServerGameMessage) {
+    fun Player.write(message: ServerGameMessage) {
         if (!isConnected()) {
             return
         }
 
-        if (mesage.priority == ServerGameProtPriority.IMMEDIATE) {
-            writeInner(mesage)
+        if (message.priority == ServerGameProtPriority.IMMEDIATE) {
+            writeInner(message)
         } else {
-            buffer.add(mesage)
+            buffer.add(message)
         }
     }
 
     fun Player.writeVarp(id: Int, value: Int) {
         if (value in -128..127) {
-            write(VarpSmall(id, value, player = this))
+            write(VarpSmall(id, value))
         } else {
-            write(VarpLarge(id, value, player = this))
+            write(VarpLarge(id, value))
         }
+    }
+
+    fun Player.VarpLarge(id: Int, value: Int) : VarpLarge {
+        return VarpLarge(this, id, value)
+    }
+
+    fun Player.VarpSmall(id: Int, value: Int) : VarpSmall {
+        return VarpSmall(this, id, value)
     }
 }
